@@ -19,8 +19,7 @@ import NewUserEmptyState from "./NewUserRecommend";
 
 const IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY;
-const DJANGO_API = "http://localhost:8000/api";
-
+const DJANGO_API = `${import.meta.env.VITE_API_URL || "http://13.205.253.23:8000"}/api`;
 const tmdbCache = new Map();
 const inFlightRequests = new Map();
 
