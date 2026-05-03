@@ -1,17 +1,14 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import { useEffect } from "react";
-
 import Register from "./auth/Register";
 import VerifyEmail from "./auth/VerifyEmail";
 import Login from "./auth/Login";
 import Home from "./pages/Home";
-
 import Navbar from "./components/navbar";
 import { Toaster } from "react-hot-toast";
-// import { setupInterceptors } from "./api/axiosInterceptor";
 import Profile from "./pages/Profile";
 import EnableMFA from "./pages/EnableMFA";
-import VerifyMFA from "./pages/VerifyMfa";
+import VerifyMFA from "./pages/VerifyMFA";
 import MFA from "./pages/MFA";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import MovieDetail from "./pages/MovieDetail";
