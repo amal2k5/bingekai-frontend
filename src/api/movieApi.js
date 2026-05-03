@@ -1,6 +1,6 @@
 import api from "./api";
 
-const API = "http://13.205.253.23/api/movies";
+const API = "https://bingekai.duckdns.org/api/movies";
 
 export const getTrendingMovies = async () => {
   const res = await api.get(`${API}/trending/`);

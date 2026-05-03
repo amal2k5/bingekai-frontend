@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 const api = axios.create({
-  baseURL: "http://13.205.253.23/api",
+  baseURL: "https://bingekai.duckdns.org/api",
   headers: { "Content-Type": "application/json" },
 });
 
