@@ -297,7 +297,9 @@ const checkUserActivity = useCallback(async (signal) => {
     }
     
     const res = await fetch(`${DJANGO_API}/recommendations/activity/check/`, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { 
+  Authorization: `Bearer ${localStorage.getItem("access")}` 
+},
       signal,
     });
     
@@ -327,7 +329,9 @@ const pollUntilDone = useCallback(async (taskId, signal) => {
     setPollCount(attempt * 2);
 
     const res = await fetch(`${DJANGO_API}/recommendations/async/status/${taskId}/`, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { 
+  Authorization: `Bearer ${localStorage.getItem("access")}` 
+},
       signal,
     });
     if (!res.ok) throw new Error(`Status check failed: ${res.status}`);
@@ -354,7 +358,9 @@ const pollUntilDone = useCallback(async (taskId, signal) => {
 
   const loadSavedResults = useCallback(async (signal) => {
     const res = await fetch(`${DJANGO_API}/recommendations/async/results/`, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { 
+  Authorization: `Bearer ${localStorage.getItem("access")}` 
+},
       signal,
     });
     if (!res.ok) throw new Error(`Failed to fetch results: ${res.status}`);
@@ -390,10 +396,10 @@ const pollUntilDone = useCallback(async (taskId, signal) => {
 
     const triggerRes = await fetch(`${DJANGO_API}/recommendations/async/trigger/`, {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
+headers: {
+  Authorization: `Bearer ${localStorage.getItem("access")}`,
+  "Content-Type": "application/json",
+},
       signal,
     });
 
