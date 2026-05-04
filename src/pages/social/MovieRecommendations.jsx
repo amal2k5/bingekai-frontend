@@ -13,13 +13,16 @@ import {
 } from "lucide-react";
 import { AuthContext } from "../../context/AuthContext";
 import AddToListModal from "../../components/ListModal";
-
+console.log("ENV:", import.meta.env.VITE_API_URL);
 import { motion } from "framer-motion";
 import NewUserEmptyState from "./NewUserRecommend";
 
+
+
+
 const IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY;
-const DJANGO_API = `${import.meta.env.VITE_API_URL || "http://13.205.253.23:8000"}/api`;
+const DJANGO_API = `${import.meta.env.VITE_API_URL}/api`;
 const tmdbCache = new Map();
 const inFlightRequests = new Map();
 
@@ -417,7 +420,7 @@ const init = useCallback(async () => {
     setActivityChecked(true);
 
     if (!activity) {
-      // ✅ new user — stop here, show NewUserEmptyState
+
       setMovies([]);
       setLoading(false);
       return;
@@ -429,7 +432,6 @@ const init = useCallback(async () => {
   } catch (err) {
     if (err.name === "AbortError" || err.message === "Request cancelled") return;
     
-    // ✅ if activity check failed, don't show error — show new user state
     if (!activityChecked) {
       setActivityChecked(true);
       setHasActivity(false);
@@ -481,14 +483,14 @@ const init = useCallback(async () => {
     setIsModalOpen(true);
   };
 
-  // Show loading while checking activity
+
   if (loading && !activityChecked) return <Container><LoadingScreen pollCount={pollCount} /></Container>;
   
-  // Show error if any
+
  if (error && hasActivity) {
   return <Container><ErrorScreen message={error} onRetry={init} /></Container>;
 }
-  // Show new user empty state (NO recommendations for new users)
+
 if (activityChecked && !hasActivity) {
   return (
     <Container>
@@ -497,12 +499,10 @@ if (activityChecked && !hasActivity) {
   );
 }
 
-  // Show loading for existing users generating recommendations
+
 if (loading) {
   return <Container><LoadingScreen pollCount={pollCount} /></Container>;
 }
-
-  // Show empty screen for existing users with no recommendations
 if (!movies.length) {
   return (
     <Container>
@@ -510,8 +510,6 @@ if (!movies.length) {
     </Container>
   );
 }
-
-  // Show recommendations for existing users with movies
   return (
     <Container>
       <div className="flex justify-between items-center pt-20 md:pt-11 mb-4">
