@@ -47,9 +47,9 @@ export default function ReviewsSection({ movieId, rating }) {
   };
 
   const toggleReviewExpansion = (reviewId) => {
-    setExpandedReviews(prev => ({
+    setExpandedReviews((prev) => ({
       ...prev,
-      [reviewId]: !prev[reviewId]
+      [reviewId]: !prev[reviewId],
     }));
   };
 
@@ -125,7 +125,7 @@ export default function ReviewsSection({ movieId, rating }) {
       } else {
         await createReview(
           { movie_id: movieId, content: reviewContent, rating },
-          token,
+          token
         );
         showToast("Review posted successfully");
       }
@@ -177,7 +177,7 @@ export default function ReviewsSection({ movieId, rating }) {
           is_liked: !r.is_liked,
           like_count: r.is_liked ? r.like_count - 1 : r.like_count + 1,
         };
-      }),
+      })
     );
 
     try {
@@ -191,7 +191,7 @@ export default function ReviewsSection({ movieId, rating }) {
             is_liked: !r.is_liked,
             like_count: r.is_liked ? r.like_count - 1 : r.like_count + 1,
           };
-        }),
+        })
       );
       showToast("Failed to like review", "error");
     }
@@ -302,9 +302,10 @@ export default function ReviewsSection({ movieId, rating }) {
             const contentLength = r.content?.length || 0;
             const shouldTruncate = contentLength > 300;
             const isExpanded = expandedReviews[r.id] || false;
-            const displayContent = shouldTruncate && !isExpanded 
-              ? r.content?.slice(0, 300) + '...' 
-              : r.content;
+            const displayContent =
+              shouldTruncate && !isExpanded
+                ? r.content?.slice(0, 300) + "..."
+                : r.content;
 
             return (
               <div
@@ -390,64 +391,57 @@ export default function ReviewsSection({ movieId, rating }) {
                     </span>
                   </div>
 
+                  {/* Review Content */}
                   <div className="relative pl-8">
                     <Quote
                       size={18}
                       className="absolute left-0 top-0 text-emerald-500/40"
                     />
 
-                    <div className="relative pl-8">
-                      <Quote
-                        size={18}
-                        className="absolute left-0 top-0 text-emerald-500/40"
+                    {r.is_spoiler === true ? (
+                      <SpoilerWarning content={r.content} confidence={1} />
+                    ) : r.has_spoiler === true ? (
+                      <SpoilerWarning
+                        content={r.content}
+                        confidence={r.spoiler_confidence}
                       />
-
-                      {r.is_spoiler === true ? (
-                        <SpoilerWarning content={r.content} confidence={1} />
-                      ) : r.has_spoiler === true ? (
-                        <SpoilerWarning
-                          content={r.content}
-                          confidence={r.spoiler_confidence}
-                        />
-                      ) : (
-                        <div className="space-y-3">
-                          <p className="text-gray-300 leading-relaxed whitespace-pre-wrap break-words">
-                            {displayContent}
-                          </p>
-                          {shouldTruncate && (
-                            <button
-                              onClick={() => toggleReviewExpansion(r.id)}
-                              className="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-400 hover:text-emerald-300 transition-all duration-300 group/readmore"
+                    ) : (
+                      <div className="space-y-3">
+                        <p className="text-gray-300 leading-relaxed whitespace-pre-wrap break-words">
+                          {displayContent}
+                        </p>
+                        {shouldTruncate && (
+                          <button
+                            onClick={() => toggleReviewExpansion(r.id)}
+                            className="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-400 hover:text-emerald-300 transition-all duration-300 group/readmore"
+                          >
+                            <span className="relative">
+                              {isExpanded ? "Show less" : "Read more"}
+                              <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-gradient-to-r from-emerald-400 to-transparent transition-all duration-300 group-hover/readmore:w-full"></span>
+                            </span>
+                            <svg
+                              className={`w-3.5 h-3.5 transition-transform duration-300 ${
+                                isExpanded ? "rotate-180" : ""
+                              }`}
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
                             >
-                              <span className="relative">
-                                {isExpanded ? "Show less" : "Read more"}
-                                <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-gradient-to-r from-emerald-400 to-transparent transition-all duration-300 group-hover/readmore:w-full"></span>
-                              </span>
-                              <svg
-                                className={`w-3.5 h-3.5 transition-transform duration-300 ${
-                                  isExpanded ? "rotate-180" : ""
-                                }`}
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M19 9l-7 7-7-7"
-                                />
-                              </svg>
-                            </button>
-                          )}
-                        </div>
-                      )}
-                    </div>
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M19 9l-7 7-7-7"
+                              />
+                            </svg>
+                          </button>
+                        )}
+                      </div>
+                    )}
                   </div>
 
-                  {/* Footer with Date on bottom left and Edit/Delete on bottom right */}
+                  {/* Footer */}
                   <div className="flex justify-between items-center mt-4 pt-3 border-t border-white/5">
-                    {/* Calendar at bottom left */}
                     <div className="flex items-center gap-2 text-xs text-gray-500">
                       <Calendar size={12} />
                       <span>
@@ -457,8 +451,7 @@ export default function ReviewsSection({ movieId, rating }) {
                       </span>
                     </div>
 
-                    {/* Edit/Delete — own reviews only at bottom right */}
-                    {r.is_owner && (
+                    {r.is_owner ? (
                       <div className="flex gap-1">
                         <button
                           onClick={() => handleEdit(r)}
@@ -473,9 +466,7 @@ export default function ReviewsSection({ movieId, rating }) {
                           <Trash2 size={16} />
                         </button>
                       </div>
-                    )}
-
-                    {!r.is_owner && (
+                    ) : (
                       <button
                         onClick={() => setReportModal(r)}
                         className="p-2 text-gray-500 hover:text-red-400 transition-colors"
@@ -528,7 +519,7 @@ export default function ReviewsSection({ movieId, rating }) {
                   onChange={(e) => setText(e.target.value)}
                   placeholder="Share your experience..."
                   className="w-full min-h-[240px] bg-transparent text-[15px] text-white/90 placeholder:text-white/50 leading-relaxed resize-none outline-none p-5 whitespace-pre-wrap"
-                  style={{ whiteSpace: 'pre-wrap' }}
+                  style={{ whiteSpace: "pre-wrap" }}
                   autoFocus
                 />
                 <div className="absolute top-0 left-0 w-2 h-2 border-l border-t border-white/10 rounded-tl-lg" />
