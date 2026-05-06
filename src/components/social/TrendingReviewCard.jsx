@@ -230,39 +230,60 @@ function TrendingReviewCard({ item }) {
     </motion.div>
   </AnimatePresence>
   
-  {/* The Micro-Expansion Toggle Button */}
+  {/* Standard Premium Expansion Toggle */}
   {content?.length > 100 && (
-    <div className="mt-3 flex items-center gap-2">
+    <div className="mt-3 flex items-center justify-between gap-3 pt-1 border-t border-white/5">
       <button
         onClick={(e) => {
           e.stopPropagation();
           setExpanded(!expanded);
         }}
-        className="inline-flex items-center gap-1.5 px-2 py-1 rounded-[4px] bg-white/[0.03] border border-white/10 hover:border-emerald-500/50 hover:bg-emerald-500/5 transition-all duration-200 group/btn"
+        className="group flex items-center gap-2 text-xs font-medium transition-all duration-200"
       >
-        <span className="text-[8px] font-black uppercase tracking-[0.25em] text-zinc-500 group-hover:text-emerald-400 transition-colors">
-          {expanded ? "Collapse" : "Expand Review"}
+        {/* Premium Icon */}
+        <div className="relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/20 to-amber-500/20 rounded-full blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <svg 
+            className={`w-4 h-4 relative transition-all duration-300 ${
+              expanded 
+                ? "text-emerald-400 rotate-180" 
+                : "text-zinc-500 group-hover:text-emerald-400 group-hover:scale-110"
+            }`}
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+        </div>
+        
+        <span className={`tracking-wide transition-colors duration-200 ${
+          expanded 
+            ? "text-zinc-400 group-hover:text-zinc-300" 
+            : "text-zinc-500 group-hover:text-emerald-400"
+        }`}>
+          {expanded ? "Show less" : "Read more"}
         </span>
-        <svg
-          className={`w-1.5 h-1.5 text-zinc-600 group-hover:text-emerald-400 transition-transform duration-500 ease-in-out ${
-            expanded ? "rotate-180" : ""
-          }`}
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={5}
-            d="M19 9l-7 7-7-7"
-          />
-        </svg>
+        
+        {/* Premium accent line */}
+        <div className={`h-px w-0 group-hover:w-6 transition-all duration-300 bg-gradient-to-r from-emerald-500 to-transparent ${
+          expanded ? "opacity-0" : "opacity-100"
+        }`} />
       </button>
-
-      {/* Subtle divider line shown only when collapsed */}
-      {!expanded && (
-        <div className="h-px flex-1 bg-gradient-to-r from-white/5 to-transparent" />
+      
+      {/* Status indicator - shows when expanded */}
+      {expanded && (
+        <div className="flex items-center gap-1.5">
+          <div className="w-1 h-1 rounded-full bg-emerald-500/60 animate-pulse" />
+          <span className="text-[9px] font-medium uppercase tracking-wider text-emerald-500/60">
+            Expanded
+          </span>
+        </div>
       )}
     </div>
   )}
