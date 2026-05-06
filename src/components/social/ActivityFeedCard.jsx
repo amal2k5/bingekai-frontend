@@ -83,7 +83,9 @@ function ActivityFeedCard({ item }) {
     return stars;
   };
 
-  const shouldTruncate = review && review.length > 120;
+  const shouldTruncate = review && review.length > 100;
+  const displayContent = expanded ? review : (shouldTruncate ? review?.slice(0, 100) + '...' : review);
+  
   const handleMovieClick = () => navigate(`/movie/${movie_id}`);
   const handleUserClick = (e) => {
     e.stopPropagation();
@@ -188,7 +190,7 @@ function ActivityFeedCard({ item }) {
               </div>
             )}
 
-            {/* Review Text with Spoiler Logic */}
+            {/* Review Text with Premium Expansion UI */}
             {review && (
               <div>
                 {item.is_spoiler === true ? (
@@ -199,23 +201,59 @@ function ActivityFeedCard({ item }) {
                     confidence={item.spoiler_confidence}
                   />
                 ) : (
-                  <div className="relative bg-white/5 rounded-lg p-3 border border-white/5 group-hover:bg-white/[0.08] transition-colors duration-300">
-                    <p
-                      className={`text-sm text-zinc-300 leading-relaxed ${expanded ? "" : "line-clamp-3"}`}
-                    >
-                      "{review}"
-                    </p>
-
-                    {shouldTruncate && (
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setExpanded(!expanded);
-                        }}
-                        className="text-xs text-emerald-400 hover:text-emerald-300 mt-2 font-medium"
+                  <div className="relative bg-white/[0.03] rounded-lg p-3 border border-white/5 hover:bg-white/[0.06] transition-all duration-300">
+                    {/* Review Text Area with smooth height transition */}
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={expanded ? "expanded" : "collapsed"}
+                        initial={false}
+                        animate={{ height: "auto" }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        className="relative"
                       >
-                        {expanded ? "Show less" : "Read more"}
-                      </button>
+                        <p className={`text-[12.5px] text-zinc-400 leading-relaxed whitespace-pre-wrap break-words transition-all duration-300 ${
+                          !expanded ? "line-clamp-2 opacity-80" : "opacity-100"
+                        }`}>
+                          {displayContent}
+                        </p>
+                      </motion.div>
+                    </AnimatePresence>
+                    
+                    {/* The Micro-Expansion Toggle Button */}
+                    {review?.length > 100 && (
+                      <div className="mt-3 flex items-center gap-2">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setExpanded(!expanded);
+                          }}
+                          className="inline-flex items-center gap-1.5 px-2 py-1 rounded-[4px] bg-white/[0.03] border border-white/10 hover:border-emerald-500/50 hover:bg-emerald-500/5 transition-all duration-200 group/btn"
+                        >
+                          <span className="text-[8px] font-black uppercase tracking-[0.25em] text-zinc-500 group-hover:text-emerald-400 transition-colors">
+                            {expanded ? "Collapse" : "Expand Review"}
+                          </span>
+                          <svg
+                            className={`w-1.5 h-1.5 text-zinc-600 group-hover:text-emerald-400 transition-transform duration-500 ease-in-out ${
+                              expanded ? "rotate-180" : ""
+                            }`}
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={5}
+                              d="M19 9l-7 7-7-7"
+                            />
+                          </svg>
+                        </button>
+
+                        {/* Subtle divider line shown only when collapsed */}
+                        {!expanded && (
+                          <div className="h-px flex-1 bg-gradient-to-r from-white/5 to-transparent" />
+                        )}
+                      </div>
                     )}
                   </div>
                 )}
@@ -225,14 +263,18 @@ function ActivityFeedCard({ item }) {
             {/* If only rating exists without review */}
             {rating && !review && (
               <div className="bg-white/5 rounded-lg p-3 border border-white/5">
-                <p className="text-sm text-zinc-400 italic">No written review provided</p>
+                <p className="text-sm text-zinc-400 italic whitespace-pre-wrap break-words">
+                  No written review provided
+                </p>
               </div>
             )}
 
             {/* If only review exists without rating */}
             {!rating && review && (
               <div className="bg-white/5 rounded-lg p-3 border border-white/5">
-                <p className="text-sm text-zinc-400 italic">No rating provided</p>
+                <p className="text-sm text-zinc-400 italic whitespace-pre-wrap break-words">
+                  No rating provided
+                </p>
               </div>
             )}
 
