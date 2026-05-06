@@ -88,15 +88,17 @@ function TrendingReviewCard({ item }) {
     return stars;
   };
 
-  const shouldTruncate = content && content.length > 100;
-  const displayContent = expanded ? content : (shouldTruncate ? content?.slice(0, 100) + '...' : content);
-  
+  // Calculate if content needs truncation (more than 120 characters or 3 lines)
+  const shouldTruncate = content && content.length > 120;
+  const displayContent = expanded ? content : (shouldTruncate ? content?.slice(0, 120) + '...' : content);
+
   const handleMovieClick = () => navigate(`/movie/${movie_id}`);
   const handleUserClick = (e) => {
     e.stopPropagation();
     navigate(`/users/${userId}`);
   };
 
+  // Trending badge
   const isTrending = recent_likes && recent_likes > 5;
 
   return (
@@ -210,58 +212,38 @@ function TrendingReviewCard({ item }) {
                     reasoning={item.spoiler_reasoning}
                   />
                 ) : (
-                  <div className="relative bg-white/[0.03] rounded-lg p-3 border border-white/5 hover:bg-white/[0.06] transition-all duration-300">
-                    {/* Review Header Label */}
-                    <div className="flex items-center gap-1.5 mb-2 opacity-50">
-                      <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-400">
-                        Review Content
-                      </span>
-                    </div>
-
-                    {/* Review Text Area - Using content variable instead of review */}
-                    <div className="relative">
-                      <p className={`text-[12.5px] text-zinc-400 leading-relaxed whitespace-pre-wrap break-words transition-all duration-300 ${
-                        !expanded ? "line-clamp-2 opacity-80" : "opacity-100"
-                      }`}>
-                        {displayContent}
-                      </p>
-                    </div>
-                    
-                    {/* The Micro-Expansion Toggle */}
-                    {content?.length > 100 && (
-                      <div className="mt-3 flex items-center gap-2">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setExpanded(!expanded);
-                          }}
-                          className="inline-flex items-center gap-1.5 px-2 py-1 rounded-[4px] bg-white/[0.03] border border-white/10 hover:border-emerald-500/50 hover:bg-emerald-500/5 transition-all duration-200 group/btn"
+                  <div className="relative bg-white/5 rounded-lg p-3 border border-white/5 group-hover:bg-white/[0.08] transition-colors duration-300">
+                    <p className="text-sm text-zinc-300 leading-relaxed whitespace-pre-wrap break-words">
+                      {displayContent}
+                    </p>
+                    {shouldTruncate && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setExpanded(!expanded);
+                        }}
+                        className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-400 hover:text-emerald-300 mt-2 transition-all duration-300 group/readmore"
+                      >
+                        <span className="relative">
+                          {expanded ? "Show less" : "Read more"}
+                          <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-gradient-to-r from-emerald-400 to-transparent transition-all duration-300 group-hover/readmore:w-full"></span>
+                        </span>
+                        <svg
+                          className={`w-3 h-3 transition-transform duration-300 ${
+                            expanded ? "rotate-180" : ""
+                          }`}
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
                         >
-                          <span className="text-[8px] font-black uppercase tracking-[0.25em] text-zinc-500 group-hover:text-emerald-400 transition-colors">
-                            {expanded ? "Collapse" : "Full Review"}
-                          </span>
-                          <svg
-                            className={`w-1.5 h-1.5 text-zinc-600 group-hover:text-emerald-400 transition-transform duration-500 ease-in-out ${
-                              expanded ? "rotate-180" : ""
-                            }`}
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={5}
-                              d="M19 9l-7 7-7-7"
-                            />
-                          </svg>
-                        </button>
-
-                        {/* Subtle Divider Line */}
-                        {!expanded && (
-                          <div className="h-px flex-1 bg-gradient-to-r from-white/5 to-transparent" />
-                        )}
-                      </div>
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 9l-7 7-7-7"
+                          />
+                        </svg>
+                      </button>
                     )}
                   </div>
                 )}
