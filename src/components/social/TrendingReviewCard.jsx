@@ -209,25 +209,38 @@ function TrendingReviewCard({ item }) {
                     reasoning={item.spoiler_reasoning}
                   />
                 ) : (
-<div className="relative bg-white/5 rounded-lg p-3 border border-white/5 group-hover:bg-white/[0.07] transition-all duration-300">
-  {/* Review Content */}
-  <p className="text-[13px] text-zinc-300 leading-relaxed whitespace-pre-wrap break-words">
-    {displayContent}
-  </p>
-  
-  {shouldTruncate && (
+<div className="relative bg-white/[0.03] rounded-lg p-2.5 border border-white/5 hover:bg-white/[0.05] transition-all duration-300">
+  <AnimatePresence mode="wait">
+    <motion.div
+      key={expanded ? "expanded" : "collapsed"}
+      initial={false}
+      animate={{ height: "auto" }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+    >
+      <p
+        className={`text-[12.5px] text-zinc-400 leading-snug whitespace-pre-wrap break-words ${
+          !expanded ? "line-clamp-2" : ""
+        }`}
+      >
+        {review}
+      </p>
+    </motion.div>
+  </AnimatePresence>
+
+  {/* Micro-scale Expand/Collapse Button */}
+  {review.length > 100 && (
     <button
       onClick={(e) => {
         e.stopPropagation();
         setExpanded(!expanded);
       }}
-      className="mt-2.5 flex items-center gap-1.5 px-2 py-0.5 rounded bg-white/5 border border-white/5 hover:border-emerald-500/40 hover:bg-emerald-500/10 transition-all duration-200 group/btn"
+      className="mt-2 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[4px] border border-white/10 hover:border-[#00e054]/50 hover:bg-[#00e054]/5 transition-all duration-200 group/btn"
     >
-      <span className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-500 group-hover:text-emerald-400 transition-colors">
+      <span className="text-[8px] font-black uppercase tracking-[0.25em] text-zinc-500 group-hover:text-[#00e054] transition-colors">
         {expanded ? "Less" : "More"}
       </span>
       <svg
-        className={`w-2 h-2 text-zinc-500 group-hover:text-emerald-400 transition-transform duration-300 ${
+        className={`w-1.5 h-1.5 text-zinc-600 group-hover:text-[#00e054] transition-transform duration-300 ${
           expanded ? "rotate-180" : ""
         }`}
         fill="none"
@@ -237,7 +250,7 @@ function TrendingReviewCard({ item }) {
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
-          strokeWidth={4}
+          strokeWidth={5}
           d="M19 9l-7 7-7-7"
         />
       </svg>
