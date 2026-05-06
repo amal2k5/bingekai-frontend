@@ -211,11 +211,27 @@ function ActivityFeedCard({ item }) {
                         transition={{ duration: 0.3, ease: "easeInOut" }}
                         className="relative"
                       >
-                        <p className={`text-[12.5px] text-zinc-400 leading-relaxed whitespace-pre-wrap break-words transition-all duration-300 ${
-                          !expanded ? "line-clamp-2 opacity-80" : "opacity-100"
-                        }`}>
-                          {displayContent}
-                        </p>
+<p
+  className={`
+    whitespace-pre-line
+    break-words
+    text-[14px]
+    leading-7
+    tracking-[0.01em]
+    font-light
+    text-zinc-300
+    transition-all
+    duration-300
+    antialiased
+    ${
+      !expanded
+        ? "line-clamp-2 opacity-80"
+        : "opacity-100"
+    }
+  `}
+>
+  {displayContent}
+</p>
                       </motion.div>
                     </AnimatePresence>
                     
