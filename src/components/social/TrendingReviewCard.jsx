@@ -209,40 +209,40 @@ function TrendingReviewCard({ item }) {
                     reasoning={item.spoiler_reasoning}
                   />
                 ) : (
-                  <div className="relative bg-white/5 rounded-lg p-3 border border-white/5 group-hover:bg-white/[0.08] transition-colors duration-300">
-                    <p className="text-sm text-zinc-300 leading-relaxed whitespace-pre-wrap break-words">
-                      {displayContent}
-                    </p>
-                    {shouldTruncate && (
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setExpanded(!expanded);
-                        }}
-                        className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-400 hover:text-emerald-300 mt-2 transition-all duration-300 group/readmore"
-                      >
-                        <span className="relative">
-                          {expanded ? "Show less" : "Read more"}
-                          <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-gradient-to-r from-emerald-400 to-transparent transition-all duration-300 group-hover/readmore:w-full"></span>
-                        </span>
-                        <svg
-                          className={`w-3 h-3 transition-transform duration-300 ${
-                            expanded ? "rotate-180" : ""
-                          }`}
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M19 9l-7 7-7-7"
-                          />
-                        </svg>
-                      </button>
-                    )}
-                  </div>
+<div className="relative bg-white/5 rounded-lg p-3 border border-white/5 group-hover:bg-white/[0.08] transition-colors duration-300">
+  <p className="text-sm text-zinc-300 leading-relaxed whitespace-pre-wrap break-words">
+    {displayContent}
+  </p>
+  
+  {shouldTruncate && (
+    <div className="mt-3 flex justify-start">
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          setExpanded(!expanded);
+        }}
+        className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 hover:bg-emerald-500/10 border border-white/5 hover:border-emerald-500/20 text-[11px] font-bold uppercase tracking-wider text-zinc-400 hover:text-emerald-400 transition-all duration-300 group/btn"
+      >
+        <span>{expanded ? "Show less" : "Read more"}</span>
+        <svg
+          className={`w-3 h-3 transition-transform duration-500 ease-out ${
+            expanded ? "rotate-180" : ""
+          } group-hover/btn:translate-y-0.5`}
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2.5}
+            d="M19 9l-7 7-7-7"
+          />
+        </svg>
+      </button>
+    </div>
+  )}
+</div>
                 )}
               </div>
             )}
