@@ -1,17 +1,23 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   User,
+  Bell,
   Users,
   LayoutGrid,
+  LogOut,
   ShieldCheck,
 } from "lucide-react";
+import { FaUsers } from "react-icons/fa";
 
 import {
   getPendingRequests,
+  acceptFollowRequest,
+  declineFollowRequest,
 } from "../services/followService";
+import api from "../api/api";
 
 export default function Navbar() {
   const { token, logout, user } = useContext(AuthContext);
@@ -21,6 +27,13 @@ export default function Navbar() {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [requests, setRequests] = useState([]);
   const [count, setCount] = useState(0);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     if (token) fetchRequests();
@@ -39,15 +52,23 @@ export default function Navbar() {
     }
   };
 
-  const handleLogoutConfirm = () => {
-    logout();
-    setShowLogoutModal(false);
-    navigate("/login", { replace: true });
-  };
-
+const handleLogoutConfirm = () => {
+  logout();
+  setShowLogoutModal(false);
+  navigate("/login", { replace: true }); 
+};
   return (
     <>
-      <nav className="fixed top-0 left-0 w-full z-50 bg-black/80 backdrop-blur-xl border-b border-white/5 py-4 shadow-2xl">
+      <motion.nav
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
+          scrolled
+            ? "bg-black/80 backdrop-blur-xl border-b border-white/5 py-3 shadow-2xl"
+            : "bg-transparent py-6"
+        }`}
+      >
         <div className="max-w-7xl mx-auto px-10 flex items-center justify-between">
           {/* Logo Section */}
           <Link to="/" className="group flex items-center gap-2">
@@ -173,11 +194,18 @@ export default function Navbar() {
                     onClick={() => setShowLogoutModal(true)}
                     className="relative px-8 py-2.5 text-[10px] font-light tracking-[0.4em] text-white/70 bg-transparent transition-all duration-500 ease-in-out overflow-hidden group border border-white/[0.1] hover:border-red-600"
                   >
+                    {/* The Premium Background Fill Layer */}
                     <div className="absolute inset-0 bg-red-600 translate-y-[101%] group-hover:translate-y-0 transition-transform duration-500 ease-[0.19,1,0.22,1]" />
+
+                    {/* Subtle Inner Shadow for Depth */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                    {/* Text Layer */}
                     <span className="relative z-10 font-semibold group-hover:text-white transition-colors duration-300">
                       LOGOUT
                     </span>
+
+                    {/* Corner Micro-Accents (Optional for added detail) */}
                     <div className="absolute top-0 left-0 w-1 h-1 border-t border-l border-white/20 group-hover:border-white/50" />
                     <div className="absolute bottom-0 right-0 w-1 h-1 border-b border-r border-white/20 group-hover:border-white/50" />
                   </motion.button>
@@ -186,6 +214,7 @@ export default function Navbar() {
             ) : (
               <div className="flex items-center gap-14">
                 <div className="flex items-center gap-8">
+                  {/* Sign In - Minimalist Underline Style */}
                   <motion.button
                     whileHover={{ y: -1 }}
                     whileTap={{ scale: 0.98 }}
@@ -196,16 +225,22 @@ export default function Navbar() {
                     <motion.div className="absolute -bottom-1 left-0 right-0 h-[1px] bg-[#22c55e] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
                   </motion.button>
 
+                  {/* Register - Premium Green Liquid Fill */}
                   <motion.button
                     whileHover={{ y: -1 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => navigate("/register")}
                     className="relative h-9 px-8 text-[10px] font-light tracking-[0.3em] text-[#22c55e] bg-transparent border border-[#22c55e]/20 overflow-hidden group transition-all duration-500"
                   >
+                    {/* The Green Liquid Fill */}
                     <div className="absolute inset-0 bg-[#22c55e] translate-y-[101%] group-hover:translate-y-0 transition-transform duration-500 ease-[0.19,1,0.22,1]" />
+
+                    {/* Text Layer */}
                     <span className="relative z-10 font-semibold group-hover:text-black transition-colors duration-300">
                       REGISTER
                     </span>
+
+                    {/* Precision Hardware Corners */}
                     <div className="absolute top-0 left-0 w-[4px] h-[1px] bg-[#22c55e] opacity-0 group-hover:opacity-100 transition-opacity" />
                     <div className="absolute bottom-0 right-0 w-[4px] h-[1px] bg-white/50 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </motion.button>
@@ -214,7 +249,7 @@ export default function Navbar() {
             )}
           </div>
         </div>
-      </nav>
+      </motion.nav>
 
       {/* Logout Modal */}
       <AnimatePresence>
