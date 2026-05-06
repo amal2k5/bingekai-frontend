@@ -52,26 +52,30 @@ export default function Navbar() {
     }
   };
 
-const handleLogoutConfirm = () => {
-  logout();
-  setShowLogoutModal(false);
-  navigate("/login", { replace: true }); 
-};
+  const handleLogoutConfirm = () => {
+    logout();
+    setShowLogoutModal(false);
+    navigate("/login", { replace: true }); 
+  };
+
   return (
     <>
-<motion.nav
-  initial={{ y: 0 }}
-  animate={{ y: 0 }}
-  className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-    scrolled
-      ? "bg-black/80 backdrop-blur-xl border-b border-white/5 py-3 shadow-2xl"
-      : "bg-transparent py-6"
-  }`}
-  style={{
-    transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
-    backdropFilter: scrolled ? "blur(12px)" : "blur(0px)"
-  }}
-/>
+      <motion.nav
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ 
+          duration: 0.5, 
+          ease: [0.16, 1, 0.3, 1],
+          type: "spring",
+          stiffness: 120,
+          damping: 20
+        }}
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+          scrolled
+            ? "bg-black/80 backdrop-blur-xl border-b border-white/10 py-3 shadow-2xl"
+            : "bg-transparent py-5"
+        }`}
+      >
         <div className="max-w-7xl mx-auto px-10 flex items-center justify-between">
           {/* Logo Section */}
           <Link to="/" className="group flex items-center gap-2">
@@ -93,10 +97,10 @@ const handleLogoutConfirm = () => {
                   {isAdmin && (
                     <div className="relative group">
                       <motion.button
-                        whileHover={{ y: -1 }}
-                        whileTap={{ scale: 0.98 }}
+                        whileHover={{ y: -2 }}
+                        whileTap={{ scale: 0.95 }}
                         onClick={() => navigate("/admin")}
-                        className="relative px-4 py-2.5 bg-transparent border-b-2 border-transparent hover:border-[#22c55e] transition-all duration-300"
+                        className="relative px-4 py-2 bg-transparent transition-all duration-300"
                       >
                         <ShieldCheck
                           size={18}
@@ -104,11 +108,9 @@ const handleLogoutConfirm = () => {
                           className="text-gray-400 group-hover:text-[#22c55e] transition-colors duration-300"
                         />
                       </motion.button>
-                      <div className="absolute left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none z-50 pt-2 whitespace-nowrap">
-                        <div className="bg-[#1a1a1a]/90 backdrop-blur-sm px-2.5 py-1 border border-white/10 rounded">
-                          <span className="text-[9px] font-mono font-medium tracking-wider text-gray-300 whitespace-nowrap">
-                            Admin Panel
-                          </span>
+                      <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none z-50 whitespace-nowrap">
+                        <div className="bg-[#1a1a1a]/90 backdrop-blur-sm px-2.5 py-1 border border-white/10 rounded text-[10px] font-mono text-gray-300">
+                          Admin Panel
                         </div>
                       </div>
                     </div>
@@ -116,10 +118,10 @@ const handleLogoutConfirm = () => {
 
                   <div className="relative group">
                     <motion.button
-                      whileHover={{ y: -1 }}
-                      whileTap={{ scale: 0.98 }}
+                      whileHover={{ y: -2 }}
+                      whileTap={{ scale: 0.95 }}
                       onClick={() => navigate("/follow-requests")}
-                      className="relative px-4 py-2.5 bg-transparent border-b-2 border-transparent hover:border-[#22c55e] transition-all duration-300"
+                      className="relative px-4 py-2 bg-transparent transition-all duration-300"
                     >
                       <Users
                         size={18}
@@ -130,27 +132,25 @@ const handleLogoutConfirm = () => {
                         <motion.div
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
-                          className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 bg-[#22c55e] text-black text-[9px] font-mono font-black flex items-center justify-center"
+                          className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 bg-[#22c55e] text-black text-[9px] font-mono font-black flex items-center justify-center rounded"
                         >
                           {count > 99 ? "99+" : count}
                         </motion.div>
                       )}
                     </motion.button>
-                    <div className="absolute left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none z-50 pt-2 whitespace-nowrap">
-                      <div className="bg-[#1a1a1a]/90 backdrop-blur-sm px-2.5 py-1 border border-white/10 rounded">
-                        <span className="text-[9px] font-mono font-medium tracking-wider text-gray-300 whitespace-nowrap">
-                          Follow Requests
-                        </span>
+                    <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none z-50 whitespace-nowrap">
+                      <div className="bg-[#1a1a1a]/90 backdrop-blur-sm px-2.5 py-1 border border-white/10 rounded text-[10px] font-mono text-gray-300">
+                        Follow Requests
                       </div>
                     </div>
                   </div>
 
                   <div className="relative group">
                     <motion.button
-                      whileHover={{ y: -1 }}
-                      whileTap={{ scale: 0.98 }}
+                      whileHover={{ y: -2 }}
+                      whileTap={{ scale: 0.95 }}
                       onClick={() => navigate("/users")}
-                      className="relative px-4 py-2.5 bg-transparent border-b-2 border-transparent hover:border-[#22c55e] transition-all duration-300"
+                      className="relative px-4 py-2 bg-transparent transition-all duration-300"
                     >
                       <LayoutGrid
                         size={18}
@@ -158,21 +158,19 @@ const handleLogoutConfirm = () => {
                         className="text-gray-400 group-hover:text-[#22c55e] transition-colors duration-300"
                       />
                     </motion.button>
-                    <div className="absolute left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none z-50 pt-2 whitespace-nowrap">
-                      <div className="bg-[#1a1a1a]/90 backdrop-blur-sm px-2.5 py-1 border border-white/10 rounded">
-                        <span className="text-[9px] font-mono font-medium tracking-wider text-gray-300 whitespace-nowrap">
-                          Explore Users
-                        </span>
+                    <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none z-50 whitespace-nowrap">
+                      <div className="bg-[#1a1a1a]/90 backdrop-blur-sm px-2.5 py-1 border border-white/10 rounded text-[10px] font-mono text-gray-300">
+                        Explore Users
                       </div>
                     </div>
                   </div>
 
                   <div className="relative group">
                     <motion.button
-                      whileHover={{ y: -1 }}
-                      whileTap={{ scale: 0.98 }}
+                      whileHover={{ y: -2 }}
+                      whileTap={{ scale: 0.95 }}
                       onClick={() => navigate("/profile")}
-                      className="relative px-4 py-2.5 bg-transparent border-b-2 border-transparent hover:border-[#22c55e] transition-all duration-300"
+                      className="relative px-4 py-2 bg-transparent transition-all duration-300"
                     >
                       <User
                         size={18}
@@ -180,11 +178,9 @@ const handleLogoutConfirm = () => {
                         className="text-gray-400 group-hover:text-[#22c55e] transition-colors duration-300"
                       />
                     </motion.button>
-                    <div className="absolute left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none z-50 pt-2 whitespace-nowrap">
-                      <div className="bg-[#1a1a1a]/90 backdrop-blur-sm px-2.5 py-1 border border-white/10 rounded">
-                        <span className="text-[9px] font-mono font-medium tracking-wider text-gray-300 whitespace-nowrap">
-                          My Profile
-                        </span>
+                    <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none z-50 whitespace-nowrap">
+                      <div className="bg-[#1a1a1a]/90 backdrop-blur-sm px-2.5 py-1 border border-white/10 rounded text-[10px] font-mono text-gray-300">
+                        My Profile
                       </div>
                     </div>
                   </div>
@@ -192,62 +188,42 @@ const handleLogoutConfirm = () => {
 
                 <div className="relative group ml-6">
                   <motion.button
-                    whileHover={{ y: -1 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.96 }}
                     onClick={() => setShowLogoutModal(true)}
-                    className="relative px-8 py-2.5 text-[10px] font-light tracking-[0.4em] text-white/70 bg-transparent transition-all duration-500 ease-in-out overflow-hidden group border border-white/[0.1] hover:border-red-600"
+                    className="relative px-6 py-2 text-[11px] font-medium tracking-[0.2em] text-red-400 bg-red-500/5 border border-red-500/30 rounded-lg hover:bg-red-500 hover:text-white transition-all duration-300"
                   >
-                    {/* The Premium Background Fill Layer */}
-                    <div className="absolute inset-0 bg-red-600 translate-y-[101%] group-hover:translate-y-0 transition-transform duration-500 ease-[0.19,1,0.22,1]" />
-
-                    {/* Subtle Inner Shadow for Depth */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                    {/* Text Layer */}
-                    <span className="relative z-10 font-semibold group-hover:text-white transition-colors duration-300">
-                      LOGOUT
-                    </span>
-
-                    {/* Corner Micro-Accents (Optional for added detail) */}
-                    <div className="absolute top-0 left-0 w-1 h-1 border-t border-l border-white/20 group-hover:border-white/50" />
-                    <div className="absolute bottom-0 right-0 w-1 h-1 border-b border-r border-white/20 group-hover:border-white/50" />
+                    LOGOUT
                   </motion.button>
+                  <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none z-50 whitespace-nowrap">
+                    <div className="bg-red-500/90 backdrop-blur-sm px-2.5 py-1 rounded text-[10px] font-mono text-white">
+                      End Session
+                    </div>
+                  </div>
                 </div>
               </div>
             ) : (
-              <div className="flex items-center gap-14">
-                <div className="flex items-center gap-8">
-                  {/* Sign In - Minimalist Underline Style */}
-                  <motion.button
-                    whileHover={{ y: -1 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => navigate("/login")}
-                    className="relative text-[10px] font-semibold tracking-[0.3em] text-white/90 hover:text-white transition-colors duration-300 group"
-                  >
-                    LOGIN
-                    <motion.div className="absolute -bottom-1 left-0 right-0 h-[1px] bg-[#22c55e] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-                  </motion.button>
+              <div className="flex items-center gap-8">
+                <motion.button
+                  whileHover={{ y: -1 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => navigate("/login")}
+                  className="relative text-[11px] font-medium tracking-[0.2em] text-white/70 hover:text-white transition-colors duration-300 group"
+                >
+                  SIGN IN
+                  <motion.div 
+                    className="absolute -bottom-1 left-0 right-0 h-px bg-[#22c55e] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"
+                  />
+                </motion.button>
 
-                  {/* Register - Premium Green Liquid Fill */}
-                  <motion.button
-                    whileHover={{ y: -1 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => navigate("/register")}
-                    className="relative h-9 px-8 text-[10px] font-light tracking-[0.3em] text-[#22c55e] bg-transparent border border-[#22c55e]/20 overflow-hidden group transition-all duration-500"
-                  >
-                    {/* The Green Liquid Fill */}
-                    <div className="absolute inset-0 bg-[#22c55e] translate-y-[101%] group-hover:translate-y-0 transition-transform duration-500 ease-[0.19,1,0.22,1]" />
-
-                    {/* Text Layer */}
-                    <span className="relative z-10 font-semibold group-hover:text-black transition-colors duration-300">
-                      REGISTER
-                    </span>
-
-                    {/* Precision Hardware Corners */}
-                    <div className="absolute top-0 left-0 w-[4px] h-[1px] bg-[#22c55e] opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <div className="absolute bottom-0 right-0 w-[4px] h-[1px] bg-white/50 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </motion.button>
-                </div>
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => navigate("/register")}
+                  className="px-6 py-2 text-[11px] font-medium tracking-[0.2em] text-[#22c55e] border border-[#22c55e]/30 rounded-lg hover:bg-[#22c55e] hover:text-black transition-all duration-300"
+                >
+                  GET STARTED
+                </motion.button>
               </div>
             )}
           </div>
