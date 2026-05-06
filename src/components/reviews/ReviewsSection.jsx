@@ -1,17 +1,4 @@
-import React, { useEffect, useState } from "react"; 
-import {
-  Trash2,
-  Edit3,
-  X,
-  MessageSquarePlus,
-  CheckCircle2,
-  AlertCircle,
-  Quote,
-  Calendar,
-  Star,
-  ChevronRight,
-  Heart,
-} from "lucide-react";
+import React, { useEffect, useState } from "react";
 import {
   Trash2,
   Edit3,
@@ -48,12 +35,22 @@ export default function ReviewsSection({ movieId, rating }) {
   const [sort, setSort] = useState("top");
   const navigate = useNavigate();
   const [reportModal, setReportModal] = useState(null);
+  const [reportReason, setReportReason] = useState("");
+  const [reportMessage, setReportMessage] = useState("");
+  const [expandedReviews, setExpandedReviews] = useState({});
 
   const token = localStorage.getItem("access");
 
   const showToast = (message, type = "success") => {
     setToast({ show: true, message, type });
     setTimeout(() => setToast({ show: false, message: "", type: "" }), 4000);
+  };
+
+  const toggleReviewExpansion = (reviewId) => {
+    setExpandedReviews(prev => ({
+      ...prev,
+      [reviewId]: !prev[reviewId]
+    }));
   };
 
   const fetchReviews = async (sortType = sort) => {
@@ -120,15 +117,10 @@ export default function ReviewsSection({ movieId, rating }) {
 
     try {
       setSubmitting(true);
-
       const reviewContent = text.trim();
 
       if (editingId) {
-        await updateReview(
-          editingId,
-          { content: reviewContent, rating },
-          token,
-        );
+        await updateReview(editingId, { content: reviewContent, rating }, token);
         showToast("Review updated successfully");
       } else {
         await createReview(
@@ -287,7 +279,6 @@ export default function ReviewsSection({ movieId, rating }) {
       </div>
 
       {/* Reviews List */}
-      {/* Reviews List */}
       <div className="space-y-6">
         {loading ? (
           <div className="space-y-5">
@@ -308,14 +299,12 @@ export default function ReviewsSection({ movieId, rating }) {
           </div>
         ) : (
           reviews.map((r, index) => {
-            // Move useState inside the map but ensure each review has its own state
-            const [isExpanded, setIsExpanded] = React.useState(false);
             const contentLength = r.content?.length || 0;
             const shouldTruncate = contentLength > 300;
-            const displayContent =
-              shouldTruncate && !isExpanded
-                ? r.content?.slice(0, 300) + "..."
-                : r.content;
+            const isExpanded = expandedReviews[r.id] || false;
+            const displayContent = shouldTruncate && !isExpanded 
+              ? r.content?.slice(0, 300) + '...' 
+              : r.content;
 
             return (
               <div
@@ -427,7 +416,7 @@ export default function ReviewsSection({ movieId, rating }) {
                           </p>
                           {shouldTruncate && (
                             <button
-                              onClick={() => setIsExpanded(!isExpanded)}
+                              onClick={() => toggleReviewExpansion(r.id)}
                               className="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-400 hover:text-emerald-300 transition-all duration-300 group/readmore"
                             >
                               <span className="relative">
@@ -456,8 +445,9 @@ export default function ReviewsSection({ movieId, rating }) {
                     </div>
                   </div>
 
-                  {/* Footer */}
+                  {/* Footer with Date on bottom left and Edit/Delete on bottom right */}
                   <div className="flex justify-between items-center mt-4 pt-3 border-t border-white/5">
+                    {/* Calendar at bottom left */}
                     <div className="flex items-center gap-2 text-xs text-gray-500">
                       <Calendar size={12} />
                       <span>
@@ -467,6 +457,7 @@ export default function ReviewsSection({ movieId, rating }) {
                       </span>
                     </div>
 
+                    {/* Edit/Delete — own reviews only at bottom right */}
                     {r.is_owner && (
                       <div className="flex gap-1">
                         <button
@@ -536,9 +527,9 @@ export default function ReviewsSection({ movieId, rating }) {
                   value={text}
                   onChange={(e) => setText(e.target.value)}
                   placeholder="Share your experience..."
-                  className="w-full min-h-[240px] bg-transparent text-[15px] text-white/90 placeholder:text-white/50 leading-relaxed resize-none outline-none p-5 whitespace-pre-wrap" // Added whitespace-pre-wrap
+                  className="w-full min-h-[240px] bg-transparent text-[15px] text-white/90 placeholder:text-white/50 leading-relaxed resize-none outline-none p-5 whitespace-pre-wrap"
+                  style={{ whiteSpace: 'pre-wrap' }}
                   autoFocus
-                  style={{ whiteSpace: "pre-wrap" }}
                 />
                 <div className="absolute top-0 left-0 w-2 h-2 border-l border-t border-white/10 rounded-tl-lg" />
                 <div className="absolute bottom-0 right-0 w-2 h-2 border-r border-b border-white/10 rounded-br-lg" />
