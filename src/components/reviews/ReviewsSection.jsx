@@ -1,4 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"; 
+import {
+  Trash2,
+  Edit3,
+  X,
+  MessageSquarePlus,
+  CheckCircle2,
+  AlertCircle,
+  Quote,
+  Calendar,
+  Star,
+  ChevronRight,
+  Heart,
+} from "lucide-react";
 import {
   Trash2,
   Edit3,
