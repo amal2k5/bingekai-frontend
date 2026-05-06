@@ -209,8 +209,9 @@ function TrendingReviewCard({ item }) {
                     reasoning={item.spoiler_reasoning}
                   />
                 ) : (
-<div className="relative bg-white/5 rounded-lg p-3 border border-white/5 group-hover:bg-white/[0.08] transition-colors duration-300">
-  <p className="text-sm text-zinc-300 leading-relaxed whitespace-pre-wrap break-words">
+<div className="relative bg-white/5 rounded-lg p-3 border border-white/5 group-hover:bg-white/[0.07] transition-all duration-300">
+  {/* Review Content */}
+  <p className="text-[13px] text-zinc-300 leading-relaxed whitespace-pre-wrap break-words">
     {displayContent}
   </p>
   
@@ -220,13 +221,13 @@ function TrendingReviewCard({ item }) {
         e.stopPropagation();
         setExpanded(!expanded);
       }}
-      className="mt-3 flex items-center gap-2 px-3 py-1 rounded-md bg-white/5 border border-white/5 hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all duration-300"
+      className="mt-2.5 flex items-center gap-1.5 px-2 py-0.5 rounded bg-white/5 border border-white/5 hover:border-emerald-500/40 hover:bg-emerald-500/10 transition-all duration-200 group/btn"
     >
-      <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-zinc-400 hover:text-emerald-400 transition-colors">
-        {expanded ? "Collapse" : "Full Review"}
+      <span className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-500 group-hover:text-emerald-400 transition-colors">
+        {expanded ? "Less" : "More"}
       </span>
       <svg
-        className={`w-2.5 h-2.5 text-zinc-500 transition-transform duration-500 ${
+        className={`w-2 h-2 text-zinc-500 group-hover:text-emerald-400 transition-transform duration-300 ${
           expanded ? "rotate-180" : ""
         }`}
         fill="none"
@@ -236,7 +237,7 @@ function TrendingReviewCard({ item }) {
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
-          strokeWidth={3}
+          strokeWidth={4}
           d="M19 9l-7 7-7-7"
         />
       </svg>
