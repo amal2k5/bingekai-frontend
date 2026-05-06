@@ -59,16 +59,19 @@ const handleLogoutConfirm = () => {
 };
   return (
     <>
-      <motion.nav
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-          scrolled
-            ? "bg-black/80 backdrop-blur-xl border-b border-white/5 py-3 shadow-2xl"
-            : "bg-transparent py-6"
-        }`}
-      >
+<motion.nav
+  initial={{ y: 0 }}
+  animate={{ y: 0 }}
+  className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
+    scrolled
+      ? "bg-black/80 backdrop-blur-xl border-b border-white/5 py-3 shadow-2xl"
+      : "bg-transparent py-6"
+  }`}
+  style={{
+    transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
+    backdropFilter: scrolled ? "blur(12px)" : "blur(0px)"
+  }}
+/>
         <div className="max-w-7xl mx-auto px-10 flex items-center justify-between">
           {/* Logo Section */}
           <Link to="/" className="group flex items-center gap-2">
