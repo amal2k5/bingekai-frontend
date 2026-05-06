@@ -195,11 +195,27 @@ export default function ActivityCard({ activity }) {
                           animate={{ height: "auto" }}
                           transition={{ duration: 0.2 }}
                         >
-                          <p
-                            className={`text-sm text-zinc-300 leading-relaxed ${!expanded ? "line-clamp-2" : ""}`}
-                          >
-                            {review}
-                          </p>
+<p
+  className={`
+    whitespace-pre-line
+    break-words
+    text-[14px]
+    leading-7
+    tracking-[0.01em]
+    font-light
+    text-zinc-300
+    antialiased
+    transition-all
+    duration-300
+    ${
+      !expanded
+        ? "line-clamp-2 opacity-90"
+        : "opacity-100"
+    }
+  `}
+>
+  {review}
+</p>
                         </motion.div>
                       )}
                     </AnimatePresence>
