@@ -70,11 +70,11 @@ export default function Navbar() {
           stiffness: 120,
           damping: 20
         }}
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-          scrolled
-            ? "bg-black/80 backdrop-blur-xl border-b border-white/10 py-3 shadow-2xl"
-            : "bg-transparent py-5"
-        }`}
+        // className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        //   scrolled
+        //     ? "bg-black/80 backdrop-blur-xl border-b border-white/10 py-3 shadow-2xl"
+        //     : "bg-transparent py-5"
+        // }`}
       >
         <div className="max-w-7xl mx-auto px-10 flex items-center justify-between">
           {/* Logo Section */}
