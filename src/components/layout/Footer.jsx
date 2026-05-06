@@ -1,5 +1,3 @@
-// src/components/layout/Footer.jsx
-
 import { motion, useScroll, useTransform } from "framer-motion";
 import {
   Github,
@@ -13,8 +11,9 @@ import {
   Star,
   ChevronRight,
   Sparkles,
+  Users,
 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export default function Footer() {
   const [hoveredSocial, setHoveredSocial] = useState(null);
