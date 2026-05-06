@@ -215,32 +215,32 @@ function TrendingReviewCard({ item }) {
   </p>
   
   {shouldTruncate && (
-    <div className="mt-3 flex justify-start">
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          setExpanded(!expanded);
-        }}
-        className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 hover:bg-emerald-500/10 border border-white/5 hover:border-emerald-500/20 text-[11px] font-bold uppercase tracking-wider text-zinc-400 hover:text-emerald-400 transition-all duration-300 group/btn"
+    <button
+      onClick={(e) => {
+        e.stopPropagation();
+        setExpanded(!expanded);
+      }}
+      className="mt-3 flex items-center gap-2 px-3 py-1 rounded-md bg-white/5 border border-white/5 hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all duration-300"
+    >
+      <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-zinc-400 hover:text-emerald-400 transition-colors">
+        {expanded ? "Collapse" : "Full Review"}
+      </span>
+      <svg
+        className={`w-2.5 h-2.5 text-zinc-500 transition-transform duration-500 ${
+          expanded ? "rotate-180" : ""
+        }`}
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
       >
-        <span>{expanded ? "Show less" : "Read more"}</span>
-        <svg
-          className={`w-3 h-3 transition-transform duration-500 ease-out ${
-            expanded ? "rotate-180" : ""
-          } group-hover/btn:translate-y-0.5`}
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2.5}
-            d="M19 9l-7 7-7-7"
-          />
-        </svg>
-      </button>
-    </div>
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={3}
+          d="M19 9l-7 7-7-7"
+        />
+      </svg>
+    </button>
   )}
 </div>
                 )}
