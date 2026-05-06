@@ -18,11 +18,7 @@ function TrendingReviewCard({ item }) {
 
   const navigate = useNavigate();
   const token = localStorage.getItem("access");
-
-  // Check if item has user object (for avatar support)
   const hasUserObject = item.user && typeof item.user === 'object';
-  
-  // Destructure based on whether we have user object or flat structure
   const {
     movie_id,
     content,
@@ -31,8 +27,6 @@ function TrendingReviewCard({ item }) {
     id,
     recent_likes,
   } = item;
-
-  // Get user data from either nested or flat structure
   const username = hasUserObject ? item.user.username : item.username;
   const userId = hasUserObject ? item.user.id : item.user_id;
   const avatarUrl = hasUserObject ? item.user.avatar : null;
@@ -95,13 +89,13 @@ function TrendingReviewCard({ item }) {
   };
 
   const shouldTruncate = content && content.length > 120;
+  const displayContent = expanded ? content : (shouldTruncate ? content?.slice(0, 120) + '...' : content);
   const handleMovieClick = () => navigate(`/movie/${movie_id}`);
   const handleUserClick = (e) => {
     e.stopPropagation();
     navigate(`/users/${userId}`);
   };
 
-  // Trending badge
   const isTrending = recent_likes && recent_likes > 5;
 
   return (
@@ -216,10 +210,8 @@ function TrendingReviewCard({ item }) {
                   />
                 ) : (
                   <div className="relative bg-white/5 rounded-lg p-3 border border-white/5 group-hover:bg-white/[0.08] transition-colors duration-300">
-                    <p
-                      className={`text-sm text-zinc-300 leading-relaxed ${expanded ? "" : "line-clamp-3"}`}
-                    >
-                      "{content}"
+                    <p className="text-sm text-zinc-300 leading-relaxed whitespace-pre-wrap break-words">
+                      {displayContent}
                     </p>
                     {shouldTruncate && (
                       <button
@@ -227,9 +219,27 @@ function TrendingReviewCard({ item }) {
                           e.stopPropagation();
                           setExpanded(!expanded);
                         }}
-                        className="text-xs text-emerald-400 hover:text-emerald-300 mt-2 font-medium"
+                        className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-400 hover:text-emerald-300 mt-2 transition-all duration-300 group/readmore"
                       >
-                        {expanded ? "Show less" : "Read more"}
+                        <span className="relative">
+                          {expanded ? "Show less" : "Read more"}
+                          <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-gradient-to-r from-emerald-400 to-transparent transition-all duration-300 group-hover/readmore:w-full"></span>
+                        </span>
+                        <svg
+                          className={`w-3 h-3 transition-transform duration-300 ${
+                            expanded ? "rotate-180" : ""
+                          }`}
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 9l-7 7-7-7"
+                          />
+                        </svg>
                       </button>
                     )}
                   </div>
@@ -240,14 +250,18 @@ function TrendingReviewCard({ item }) {
             {/* If only rating exists without review */}
             {rating && !content && (
               <div className="bg-white/5 rounded-lg p-3 border border-white/5">
-                <p className="text-sm text-zinc-400 italic">No written review provided</p>
+                <p className="text-sm text-zinc-400 italic whitespace-pre-wrap break-words">
+                  No written review provided
+                </p>
               </div>
             )}
 
             {/* If only review exists without rating */}
             {!rating && content && (
               <div className="bg-white/5 rounded-lg p-3 border border-white/5">
-                <p className="text-sm text-zinc-400 italic">No rating provided</p>
+                <p className="text-sm text-zinc-400 italic whitespace-pre-wrap break-words">
+                  No rating provided
+                </p>
               </div>
             )}
 
