@@ -130,7 +130,7 @@ export default function Profile() {
         avatar_url: avatarUrl ? `${avatarUrl}?t=${Date.now()}` : null,
       });
 
-      toast.success("✅ Profile photo updated!");
+      toast.success("Profile photo updated!");
     } catch (error) {
       console.error("Upload error:", error);
       toast.error("Failed to upload photo");
