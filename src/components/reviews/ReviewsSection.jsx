@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Trash2,
   Edit3,
@@ -23,12 +23,6 @@ import { useNavigate } from "react-router-dom";
 import SpoilerWarning from "./SpoilerWarning";
 import api from "../../api/api";
 import ReviewReportModal from "./ReviewReportModal";
-
-
-
-
-
-
 
 export default function ReviewsSection({ movieId, rating }) {
   const [reviews, setReviews] = useState([]);
@@ -98,7 +92,7 @@ export default function ReviewsSection({ movieId, rating }) {
 
   useEffect(() => {
     if (movieId) fetchReviews(sort);
-  }, [movieId, sort]); 
+  }, [movieId, sort]);
 
   const handleSubmit = async () => {
     if (!text.trim()) {
@@ -114,12 +108,18 @@ export default function ReviewsSection({ movieId, rating }) {
     try {
       setSubmitting(true);
 
+      const reviewContent = text.trim();
+
       if (editingId) {
-        await updateReview(editingId, { content: text.trim(), rating }, token);
+        await updateReview(
+          editingId,
+          { content: reviewContent, rating },
+          token,
+        );
         showToast("Review updated successfully");
       } else {
         await createReview(
-          { movie_id: movieId, content: text.trim(), rating },
+          { movie_id: movieId, content: reviewContent, rating },
           token,
         );
         showToast("Review posted successfully");
@@ -274,218 +274,219 @@ export default function ReviewsSection({ movieId, rating }) {
       </div>
 
       {/* Reviews List */}
-<div className="space-y-6">
-  {loading ? (
-    <div className="space-y-5">
-      {[1, 2].map((i) => (
-        <div
-          key={i}
-          className="h-32 bg-white/[0.03] rounded-2xl animate-pulse"
-        />
-      ))}
-    </div>
-  ) : reviews.length === 0 ? (
-    <div className="py-20 text-center rounded-3xl bg-gradient-to-br from-white/[0.02] to-transparent border border-white/10">
-      <MessageSquarePlus
-        size={36}
-        className="mx-auto mb-4 text-emerald-400/40"
-      />
-      <h3 className="text-xl font-semibold text-white">No Reviews Yet</h3>
-    </div>
-  ) : (
-    reviews.map((r, index) => {
-      const [isExpanded, setIsExpanded] = React.useState(false);
-      const contentLength = r.content?.length || 0;
-      const shouldTruncate = contentLength > 300;
-      const displayContent = shouldTruncate && !isExpanded 
-        ? r.content?.slice(0, 300) + '...' 
-        : r.content;
+      {/* Reviews List */}
+      <div className="space-y-6">
+        {loading ? (
+          <div className="space-y-5">
+            {[1, 2].map((i) => (
+              <div
+                key={i}
+                className="h-32 bg-white/[0.03] rounded-2xl animate-pulse"
+              />
+            ))}
+          </div>
+        ) : reviews.length === 0 ? (
+          <div className="py-20 text-center rounded-3xl bg-gradient-to-br from-white/[0.02] to-transparent border border-white/10">
+            <MessageSquarePlus
+              size={36}
+              className="mx-auto mb-4 text-emerald-400/40"
+            />
+            <h3 className="text-xl font-semibold text-white">No Reviews Yet</h3>
+          </div>
+        ) : (
+          reviews.map((r, index) => {
+            // Move useState inside the map but ensure each review has its own state
+            const [isExpanded, setIsExpanded] = React.useState(false);
+            const contentLength = r.content?.length || 0;
+            const shouldTruncate = contentLength > 300;
+            const displayContent =
+              shouldTruncate && !isExpanded
+                ? r.content?.slice(0, 300) + "..."
+                : r.content;
 
-      return (
-        <div
-          key={r.id}
-          className="group relative animate-in fade-in slide-in-from-bottom-3 duration-500"
-          style={{ animationDelay: `${index * 80}ms` }}
-        >
-          <div className="relative bg-gradient-to-br from-white/[0.04] to-white/[0.01] backdrop-blur-sm rounded-2xl border border-white/10 hover:border-emerald-500/30 transition-all duration-500 overflow-hidden p-6">
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-emerald-500/30">
-                  {r.user?.avatar ? (
-                    <img
-                      src={r.user.avatar}
-                      alt={r.user.username}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-emerald-500/30 to-green-500/30 text-emerald-400 font-bold">
-                      {r.user?.username?.[0]?.toUpperCase() || "U"}
+            return (
+              <div
+                key={r.id}
+                className="group relative animate-in fade-in slide-in-from-bottom-3 duration-500"
+                style={{ animationDelay: `${index * 80}ms` }}
+              >
+                <div className="relative bg-gradient-to-br from-white/[0.04] to-white/[0.01] backdrop-blur-sm rounded-2xl border border-white/10 hover:border-emerald-500/30 transition-all duration-500 overflow-hidden p-6">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-emerald-500/30">
+                        {r.user?.avatar ? (
+                          <img
+                            src={r.user.avatar}
+                            alt={r.user.username}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-emerald-500/30 to-green-500/30 text-emerald-400 font-bold">
+                            {r.user?.username?.[0]?.toUpperCase() || "U"}
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        <h4
+                          onClick={() => navigate(`/users/${r.user?.id}`)}
+                          className="text-white font-semibold cursor-pointer hover:text-emerald-400 transition"
+                        >
+                          {r.user?.username || "Anonymous"}
+                        </h4>
+                      </div>
                     </div>
-                  )}
-                </div>
-                <div>
-                  <h4
-                    onClick={() => navigate(`/users/${r.user?.id}`)}
-                    className="text-white font-semibold cursor-pointer hover:text-emerald-400 transition"
-                  >
-                    {r.user?.username || "Anonymous"}
-                  </h4>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                {r.is_owner ? (
-                  <div className="flex flex-col items-center justify-center gap-1.5 px-3 py-2 min-w-[60px]">
-                    <Heart size={18} className="text-gray-500" />
-                    <span className="text-xs font-medium text-gray-400">
-                      {r.like_count || 0}{" "}
-                      {r.like_count === 1 ? "like" : "likes"}
+                    <div className="flex items-center gap-2">
+                      {r.is_owner ? (
+                        <div className="flex flex-col items-center justify-center gap-1.5 px-3 py-2 min-w-[60px]">
+                          <Heart size={18} className="text-gray-500" />
+                          <span className="text-xs font-medium text-gray-400">
+                            {r.like_count || 0}{" "}
+                            {r.like_count === 1 ? "like" : "likes"}
+                          </span>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => handleLike(r.id)}
+                          className="flex flex-col items-center justify-center gap-1.5 px-3 py-2 rounded-lg transition-all duration-300 group/like hover:bg-white/5 min-w-[60px]"
+                        >
+                          <Heart
+                            size={18}
+                            className={`transition-all duration-300 ${
+                              r.is_liked
+                                ? "fill-green-400 text-green-400 scale-110"
+                                : "text-gray-500 hover:text-green-400 group-hover/like:scale-110"
+                            }`}
+                          />
+                          <span
+                            className={`text-xs font-medium transition-colors duration-300 ${
+                              r.is_liked ? "text-green-400" : "text-gray-400"
+                            }`}
+                          >
+                            {r.like_count || 0}{" "}
+                            {r.like_count === 1 ? "like" : "likes"}
+                          </span>
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Rating Display */}
+                  <div className="flex items-center gap-1 mb-3 ml-8">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        size={14}
+                        className={`${
+                          i < Math.floor(r.rating || 0)
+                            ? "fill-yellow-400 text-yellow-400"
+                            : "text-gray-600"
+                        }`}
+                      />
+                    ))}
+                    <span className="text-xs text-gray-400 ml-2">
+                      ({r.rating?.toFixed(1) || "0.0"})
                     </span>
                   </div>
-                ) : (
-                  <button
-                    onClick={() => handleLike(r.id)}
-                    className="flex flex-col items-center justify-center gap-1.5 px-3 py-2 rounded-lg transition-all duration-300 group/like hover:bg-white/5 min-w-[60px]"
-                  >
-                    <Heart
+
+                  <div className="relative pl-8">
+                    <Quote
                       size={18}
-                      className={`transition-all duration-300 ${
-                        r.is_liked
-                          ? "fill-green-400 text-green-400 scale-110"
-                          : "text-gray-500 hover:text-green-400 group-hover/like:scale-110"
-                      }`}
+                      className="absolute left-0 top-0 text-emerald-500/40"
                     />
-                    <span
-                      className={`text-xs font-medium transition-colors duration-300 ${
-                        r.is_liked ? "text-green-400" : "text-gray-400"
-                      }`}
-                    >
-                      {r.like_count || 0}{" "}
-                      {r.like_count === 1 ? "like" : "likes"}
-                    </span>
-                  </button>
-                )}
-              </div>
-            </div>
 
-            {/* Rating Display */}
-            <div className="flex items-center gap-1 mb-3 ml-8">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  size={14}
-                  className={`${
-                    i < Math.floor(r.rating || 0)
-                      ? "fill-yellow-400 text-yellow-400"
-                      : "text-gray-600"
-                  }`}
-                />
-              ))}
-              <span className="text-xs text-gray-400 ml-2">
-                ({r.rating?.toFixed(1) || "0.0"})
-              </span>
-            </div>
+                    <div className="relative pl-8">
+                      <Quote
+                        size={18}
+                        className="absolute left-0 top-0 text-emerald-500/40"
+                      />
 
-            <div className="relative pl-8">
-              <Quote
-                size={18}
-                className="absolute left-0 top-0 text-emerald-500/40"
-              />
+                      {r.is_spoiler === true ? (
+                        <SpoilerWarning content={r.content} confidence={1} />
+                      ) : r.has_spoiler === true ? (
+                        <SpoilerWarning
+                          content={r.content}
+                          confidence={r.spoiler_confidence}
+                        />
+                      ) : (
+                        <div className="space-y-3">
+                          <p className="text-gray-300 leading-relaxed whitespace-pre-wrap break-words">
+                            {displayContent}
+                          </p>
+                          {shouldTruncate && (
+                            <button
+                              onClick={() => setIsExpanded(!isExpanded)}
+                              className="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-400 hover:text-emerald-300 transition-all duration-300 group/readmore"
+                            >
+                              <span className="relative">
+                                {isExpanded ? "Show less" : "Read more"}
+                                <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-gradient-to-r from-emerald-400 to-transparent transition-all duration-300 group-hover/readmore:w-full"></span>
+                              </span>
+                              <svg
+                                className={`w-3.5 h-3.5 transition-transform duration-300 ${
+                                  isExpanded ? "rotate-180" : ""
+                                }`}
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M19 9l-7 7-7-7"
+                                />
+                              </svg>
+                            </button>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
 
-              <div className="relative pl-8">
-                <Quote
-                  size={18}
-                  className="absolute left-0 top-0 text-emerald-500/40"
-                />
+                  {/* Footer */}
+                  <div className="flex justify-between items-center mt-4 pt-3 border-t border-white/5">
+                    <div className="flex items-center gap-2 text-xs text-gray-500">
+                      <Calendar size={12} />
+                      <span>
+                        {r.created_at
+                          ? new Date(r.created_at).toLocaleDateString()
+                          : "Recent"}
+                      </span>
+                    </div>
 
-                {r.is_spoiler === true ? (
-                  <SpoilerWarning content={r.content} confidence={1} />
-                ) : r.has_spoiler === true ? (
-                  <SpoilerWarning
-                    content={r.content}
-                    confidence={r.spoiler_confidence}
-                  />
-                ) : (
-                  <div className="space-y-3">
-                    <p className="text-gray-300 leading-relaxed whitespace-pre-wrap break-words">
-                      {displayContent}
-                    </p>
-                    {shouldTruncate && (
-                      <button
-                        onClick={() => setIsExpanded(!isExpanded)}
-                        className="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-400 hover:text-emerald-300 transition-all duration-300 group/readmore"
-                      >
-                        <span className="relative">
-                          {isExpanded ? "Show less" : "Read more"}
-                          <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-gradient-to-r from-emerald-400 to-transparent transition-all duration-300 group-hover/readmore:w-full"></span>
-                        </span>
-                        <svg
-                          className={`w-3.5 h-3.5 transition-transform duration-300 ${
-                            isExpanded ? "rotate-180" : ""
-                          }`}
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
+                    {r.is_owner && (
+                      <div className="flex gap-1">
+                        <button
+                          onClick={() => handleEdit(r)}
+                          className="p-2 text-gray-500 hover:text-emerald-400 transition-colors"
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M19 9l-7 7-7-7"
-                          />
-                        </svg>
+                          <Edit3 size={16} />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(r.id)}
+                          className="p-2 text-gray-500 hover:text-red-400 transition-colors"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
+                    )}
+
+                    {!r.is_owner && (
+                      <button
+                        onClick={() => setReportModal(r)}
+                        className="p-2 text-gray-500 hover:text-red-400 transition-colors"
+                        title="Report review"
+                      >
+                        <AlertCircle size={16} />
                       </button>
                     )}
                   </div>
-                )}
-              </div>
-            </div>
-
-            {/* Footer with Date on bottom left and Edit/Delete on bottom right */}
-            <div className="flex justify-between items-center mt-4 pt-3 border-t border-white/5">
-              {/* Calendar at bottom left */}
-              <div className="flex items-center gap-2 text-xs text-gray-500">
-                <Calendar size={12} />
-                <span>
-                  {r.created_at
-                    ? new Date(r.created_at).toLocaleDateString()
-                    : "Recent"}
-                </span>
-              </div>
-
-              {/* Edit/Delete — own reviews only at bottom right */}
-              {r.is_owner && (
-                <div className="flex gap-1">
-                  <button
-                    onClick={() => handleEdit(r)}
-                    className="p-2 text-gray-500 hover:text-emerald-400 transition-colors"
-                  >
-                    <Edit3 size={16} />
-                  </button>
-                  <button
-                    onClick={() => handleDelete(r.id)}
-                    className="p-2 text-gray-500 hover:text-red-400 transition-colors"
-                  >
-                    <Trash2 size={16} />
-                  </button>
                 </div>
-              )}
-
-              {!r.is_owner && (
-                <button
-                  onClick={() => setReportModal(r)}
-                  className="p-2 text-gray-500 hover:text-red-400 transition-colors"
-                  title="Report review"
-                >
-                  <AlertCircle size={16} />
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
-      );
-    })
-  )}
-</div>
+              </div>
+            );
+          })
+        )}
+      </div>
 
       {/* Modal */}
       {isModalOpen && (
@@ -522,8 +523,9 @@ export default function ReviewsSection({ movieId, rating }) {
                   value={text}
                   onChange={(e) => setText(e.target.value)}
                   placeholder="Share your experience..."
-                  className="w-full min-h-[240px] bg-transparent text-[15px] text-white/90 placeholder:text-white/50 leading-relaxed resize-none outline-none p-5"
+                  className="w-full min-h-[240px] bg-transparent text-[15px] text-white/90 placeholder:text-white/50 leading-relaxed resize-none outline-none p-5 whitespace-pre-wrap" // Added whitespace-pre-wrap
                   autoFocus
+                  style={{ whiteSpace: "pre-wrap" }}
                 />
                 <div className="absolute top-0 left-0 w-2 h-2 border-l border-t border-white/10 rounded-tl-lg" />
                 <div className="absolute bottom-0 right-0 w-2 h-2 border-r border-b border-white/10 rounded-br-lg" />
