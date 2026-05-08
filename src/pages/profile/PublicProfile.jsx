@@ -60,7 +60,7 @@ export default function PublicProfilePage() {
   const [expandedReviews, setExpandedReviews] = useState({});
   const [reportModal, setReportModal] = useState(null);
 
-  // Scroll animation values
+
   const { scrollY } = useScroll();
   const cardOpacity = useTransform(scrollY, [0, 300], [1, 0.95]);
   const cardScale = useTransform(scrollY, [0, 300], [1, 0.98]);
@@ -189,7 +189,6 @@ const getActivityFeed = () => {
     grouped[r.movie_id].spoiler_reasoning = r.spoiler_reasoning || null;
     grouped[r.movie_id].is_spoiler_overridden = r.is_spoiler_overridden || false;
     grouped[r.movie_id].is_spoiler = r.is_spoiler || false;
-    // ✅ use review date as the activity sort timestamp
     if (r.created_at) grouped[r.movie_id].timestamp = r.created_at;
   });
 

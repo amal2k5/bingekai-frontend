@@ -56,9 +56,10 @@ function AppRoutes() {
     hideNavbarRoutes.includes(location.pathname) ||
     location.pathname.startsWith("/admin");
 
-  const hideFooter =
-    hideFooterRoutes.includes(location.pathname) ||
-    location.pathname.startsWith("/admin");
+const hideFooter =
+  hideFooterRoutes.includes(location.pathname) ||
+  location.pathname.startsWith("/admin") ||
+  location.pathname.startsWith("/users/");
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
