@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { Heart } from "lucide-react";
+import { Heart, ChevronDown } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toggleLike } from "../../services/reviewService";
@@ -84,8 +84,12 @@ function ActivityFeedCard({ item }) {
   };
 
   const shouldTruncate = review && review.length > 100;
-  const displayContent = expanded ? review : (shouldTruncate ? review?.slice(0, 100) + '...' : review);
-  
+  const displayContent = expanded
+    ? review
+    : shouldTruncate
+      ? review?.slice(0, 100) + "..."
+      : review;
+
   const handleMovieClick = () => navigate(`/movie/${movie_id}`);
   const handleUserClick = (e) => {
     e.stopPropagation();
@@ -131,8 +135,7 @@ function ActivityFeedCard({ item }) {
 
           {/* Action text */}
           <span className="text-xs text-zinc-400 whitespace-nowrap">
-            {item.activity_type === "rating_and_review" ||
-            (rating && review)
+            {item.activity_type === "rating_and_review" || (rating && review)
               ? "rated and reviewed"
               : item.activity_type === "rating" || (rating && !review)
                 ? "rated"
@@ -202,81 +205,63 @@ function ActivityFeedCard({ item }) {
                   />
                 ) : (
                   <div className="relative bg-white/[0.03] rounded-lg p-3 border border-white/5 hover:bg-white/[0.06] transition-all duration-300">
-                    {/* Review Text Area with smooth height transition */}
                     <AnimatePresence mode="wait">
                       <motion.div
                         key={expanded ? "expanded" : "collapsed"}
                         initial={false}
                         animate={{ height: "auto" }}
                         transition={{ duration: 0.3, ease: "easeInOut" }}
-                        className="relative"
                       >
-<p
-  className={`
-    whitespace-pre-line
-    break-words
-    text-[14px]
-    leading-7
-    tracking-[0.01em]
-    font-light
-    text-zinc-300
-    transition-all
-    duration-300
-    antialiased
-    ${
-      !expanded
-        ? "line-clamp-2 opacity-80"
-        : "opacity-100"
-    }
-  `}
->
-  {displayContent}
-</p>
+                        <p
+                          className={`
+                            whitespace-pre-line
+                            break-words
+                            text-[14px]
+                            leading-7
+                            tracking-[0.01em]
+                            font-light
+                            text-zinc-300
+                            transition-all
+                            duration-300
+                            antialiased
+                            ${!expanded ? "line-clamp-2 opacity-80" : "opacity-100"}
+                          `}
+                        >
+                          {displayContent}
+                        </p>
                       </motion.div>
                     </AnimatePresence>
-                    
-                    {/* The Micro-Expansion Toggle Button */}
-                    {review?.length > 100 && (
-                      <div className="mt-3 flex items-center gap-2">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setExpanded(!expanded);
-                          }}
-                          className="inline-flex items-center gap-1.5 px-2 py-1 rounded-[4px] bg-white/[0.03] border border-white/10 hover:border-emerald-500/50 hover:bg-emerald-500/5 transition-all duration-200 group/btn"
-                        >
-                          <span className="text-[8px] font-black uppercase tracking-[0.25em] text-zinc-500 group-hover:text-emerald-400 transition-colors">
-                            {expanded ? "Collapse" : "Expand Review"}
-                          </span>
-                          <svg
-                            className={`w-1.5 h-1.5 text-zinc-600 group-hover:text-emerald-400 transition-transform duration-500 ease-in-out ${
-                              expanded ? "rotate-180" : ""
-                            }`}
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={5}
-                              d="M19 9l-7 7-7-7"
-                            />
-                          </svg>
-                        </button>
 
-                        {/* Subtle divider line shown only when collapsed */}
-                        {!expanded && (
-                          <div className="h-px flex-1 bg-gradient-to-r from-white/5 to-transparent" />
-                        )}
-                      </div>
+                    {review?.length > 100 && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setExpanded(!expanded);
+                        }}
+                        className="mt-2 group inline-flex items-center gap-1.5 text-[11px] font-medium transition-all duration-200"
+                      >
+                        <ChevronDown
+                          size={14}
+                          className={`transition-all duration-200 ${
+                            expanded 
+                              ? "text-emerald-400 rotate-180" 
+                              : "text-zinc-500 group-hover:text-emerald-400"
+                          }`}
+                        />
+                        <span className={`tracking-wide ${
+                          expanded 
+                            ? "text-zinc-500" 
+                            : "text-zinc-500 group-hover:text-emerald-400"
+                        }`}>
+                          {expanded ? "Show less" : "Read more"}
+                        </span>
+                      </button>
                     )}
                   </div>
                 )}
               </div>
             )}
 
-            {/* If only rating exists without review */}
             {rating && !review && (
               <div className="bg-white/5 rounded-lg p-3 border border-white/5">
                 <p className="text-sm text-zinc-400 italic whitespace-pre-wrap break-words">
@@ -285,7 +270,6 @@ function ActivityFeedCard({ item }) {
               </div>
             )}
 
-            {/* If only review exists without rating */}
             {!rating && review && (
               <div className="bg-white/5 rounded-lg p-3 border border-white/5">
                 <p className="text-sm text-zinc-400 italic whitespace-pre-wrap break-words">
@@ -296,7 +280,6 @@ function ActivityFeedCard({ item }) {
 
             {/* Bottom Actions - Like on Left, Report on Right */}
             <div className="mt-auto flex items-center justify-between pt-4 border-t border-white/5">
-              {/* Like Button - Left side */}
               {review_id && (
                 <motion.button
                   whileTap={{ scale: 0.9 }}
@@ -328,8 +311,7 @@ function ActivityFeedCard({ item }) {
                   </span>
                 </motion.button>
               )}
-              
-              {/* Report Button - Right side */}
+
               {review_id && (
                 <button
                   onClick={(e) => {
