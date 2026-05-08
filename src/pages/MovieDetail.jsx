@@ -10,7 +10,7 @@ import {
 import RatingStars from "../components/RatingStars";
 import ReviewsSection from "../components/reviews/ReviewsSection";
 import WatchlistModal from "../components/watchlist/WatchlistModal";
-import { Plus, Film, Star, Calendar, Clock, ChevronDown } from "lucide-react";
+import { Plus, Film, Star, Calendar, Clock, ChevronDown, Share2 } from "lucide-react";
 
 const IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 const BACKDROP_BASE = "https://image.tmdb.org/t/p/original";
