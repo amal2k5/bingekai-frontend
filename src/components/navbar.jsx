@@ -8,7 +8,6 @@ import {
   Users,
   LayoutGrid,
   LogOut,
-  ShieldCheck,
 } from "lucide-react";
 import { FaUsers } from "react-icons/fa";
 
@@ -87,29 +86,7 @@ const handleLogoutConfirm = () => {
             {token ? (
               <div className="flex items-center gap-14">
                 <div className="flex items-center gap-8">
-                  {isAdmin && (
-                    <div className="relative group">
-                      <motion.button
-                        whileHover={{ y: -1 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => navigate("/admin")}
-                        className="relative px-4 py-2.5 bg-transparent border-b-2 border-transparent hover:border-[#22c55e] transition-all duration-300"
-                      >
-                        <ShieldCheck
-                          size={18}
-                          strokeWidth={1.5}
-                          className="text-gray-400 group-hover:text-[#22c55e] transition-colors duration-300"
-                        />
-                      </motion.button>
-                      <div className="absolute left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none z-50 pt-2 whitespace-nowrap">
-                        <div className="bg-[#1a1a1a]/90 backdrop-blur-sm px-2.5 py-1 border border-white/10 rounded">
-                          <span className="text-[9px] font-mono font-medium tracking-wider text-gray-300 whitespace-nowrap">
-                            Admin Panel
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  )}
+
 
                   <div className="relative group">
                     <motion.button
