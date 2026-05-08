@@ -128,130 +128,239 @@ export default function MovieDetail() {
       />
 
       {/* HERO & MOVIE DETAILS OVERLAY */}
-      <div className="relative h-[85vh] w-full overflow-hidden bg-[#0a0a0a]">
-        {/* Backdrop Layer */}
-        <div className="absolute inset-0">
-          {/* 1. Base Image Layer */}
-          <div className="relative w-full h-full overflow-hidden">
-            <img
-              src={
-                movie?.backdrop_path
-                  ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
-                  : "https://via.placeholder.com/1920x1080"
-              }
-              className="w-full h-full object-cover object-[center_25%] animate-ken-burns scale-105"
-              alt={movie.title}
-              style={{
-                imageRendering: "auto",
-                filter: "brightness(0.8) contrast(1.1)",
-              }}
-            />
+      <div className="relative min-h-[90vh] w-full overflow-hidden bg-gradient-to-b from-[#0a0a0a] to-black">
+  {/* Background Layer with Parallax Effect */}
+  <div className="absolute inset-0">
+    {/* Base Backdrop Image */}
+    <div className="absolute inset-0 overflow-hidden">
+      <img
+        src={
+          movie?.backdrop_path
+            ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
+            : "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?q=80&w=2070"
+        }
+        className="w-full h-full object-cover object-center scale-105"
+        style={{
+          filter: "brightness(0.4) blur(2px)",
+          transform: "scale(1.05)",
+        }}
+        alt={movie.title}
+      />
+    </div>
+
+    {/* Premium Gradient Overlays */}
+    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/60 to-transparent" />
+    <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-transparent" />
+    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_left,transparent_30%,black_100%)]" />
+    
+    {/* Noise Texture */}
+    <div className="absolute inset-0 opacity-20 pointer-events-none bg-[url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" /%3E%3C/svg%3E')]" />
+  </div>
+
+  {/* Main Content Container */}
+  <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 min-h-[90vh] flex items-end">
+    <div className="w-full pb-12 lg:pb-20">
+      <div className="flex flex-col lg:flex-row lg:items-end gap-8 lg:gap-12">
+        
+        {/* Left Column - Poster (Premium Quality) */}
+        <div className="relative flex-shrink-0 self-start lg:self-auto">
+          {/* Poster Container with Hover Effects */}
+          <div className="relative group/poster">
+            {/* Glow Effect */}
+            <div className="absolute -inset-2 bg-gradient-to-r from-emerald-500/20 to-amber-500/20 rounded-2xl blur-xl opacity-0 group-hover/poster:opacity-100 transition-opacity duration-500" />
+            
+            {/* Poster Frame */}
+            <div className="relative w-48 sm:w-56 md:w-64 lg:w-72 rounded-2xl overflow-hidden shadow-2xl transform transition-all duration-500 group-hover/poster:scale-105">
+              <img
+                src={
+                  movie?.poster_path
+                    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                    : "https://via.placeholder.com/500x750?text=No+Poster"
+                }
+                srcSet={`
+                  https://image.tmdb.org/t/p/w342${movie?.poster_path} 342w,
+                  https://image.tmdb.org/t/p/w500${movie?.poster_path} 500w,
+                  https://image.tmdb.org/t/p/w780${movie?.poster_path} 780w
+                `}
+                sizes="(max-width: 640px) 192px, (max-width: 768px) 224px, (max-width: 1024px) 256px, 288px"
+                alt={movie?.title}
+                className="w-full h-auto object-cover"
+                loading="eager"
+              />
+              
+              {/* Overlay Gradient */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover/poster:opacity-100 transition-opacity duration-300" />
+            </div>
           </div>
-
-          {/* 2. Cinematic Gradient Suite */}
-          <div className="absolute inset-0">
-            {/* Heavy Bottom Fade: Ensures text is legible and blends into the page body */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/40 to-transparent" />
-
-            {/* Left Protection: Softens the left side for title readability */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/80 via-transparent to-transparent" />
-
-            {/* Vignette: Focuses the viewer on the center-right of the image */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.5)_100%)]" />
-          </div>
-
-          {/* 3. Texture & Overlays */}
-          {/* Subtle Film Grain */}
-          <div className="absolute inset-0 opacity-[0.2] pointer-events-none mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
-
-          {/* Bottom Accent Line */}
-          <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent" />
         </div>
 
-        {/* Content Layer (unchanged, but remains positioned over the new backdrop) */}
-        <div className="absolute bottom-0 left-0 right-0 px-6 md:px-16 pb-12 lg:pb-16 z-10">
-          <div className="max-w-3xl space-y-6">
-            <div className="space-y-4">
-              <h1 className="text-5xl md:text-7xl font-light tracking-tighter text-white leading-[1.1]">
-                {movie.title}
-                <span className="block text-xl md:text-2xl font-light text-white/40 tracking-normal mt-2">
-                  {movie.tagline || "Cinematic Experience"}
-                </span>
-              </h1>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-5 text-sm">
-              <div className="flex items-center gap-2 px-3 py-1.5 bg-white/5 backdrop-blur-sm rounded-full border border-white/10">
-                <Star className="w-3.5 h-3.5 text-emerald-500 fill-emerald-500/50" />
-                <span className="text-white font-medium text-sm">
-                  {movie.vote_average?.toFixed(1)}
-                </span>
-                <span className="text-white/40 text-xs">/10</span>
-              </div>
-
-              <div className="flex items-center gap-2 text-white/70">
-                <Calendar className="w-3.5 h-3.5 text-emerald-500/60" />
-                <span className="text-sm">
-                  {movie.release_date?.split("-")[0] || "TBA"}
-                </span>
-              </div>
-
-              <div className="flex items-center gap-2 text-white/70">
-                <Clock className="w-3.5 h-3.5 text-emerald-500/60" />
-                <span className="text-sm">
-                  {Math.floor(movie.runtime / 60)}h {movie.runtime % 60}m
-                </span>
+        {/* Right Column - Movie Details */}
+        <div className="flex-1 space-y-8">
+          {/* Title Section */}
+          <div className="space-y-4">
+            <div className="flex flex-wrap items-center gap-3">
+              {/* Certification Badge */}
+              {movie?.adult === false && (
+                <div className="px-2 py-0.5 bg-white/10 backdrop-blur-sm rounded text-[10px] font-bold text-white/80 tracking-wider border border-white/20">
+                  PG-13
+                </div>
+              )}
+              {/* Release Year Tag */}
+              <div className="px-2 py-0.5 bg-emerald-500/20 backdrop-blur-sm rounded text-[10px] font-bold text-emerald-400 tracking-wider border border-emerald-500/30">
+                {movie?.release_date?.split("-")[0] || "TBA"}
               </div>
             </div>
 
-<div className="relative max-w-2xl group">
-  {/* The vertical accent line now scales with the content */}
-<div className="absolute left-0 top-0 bottom-0 w-[2px] bg-[#22c55e] opacity-90" />
-  
-  <div className="pl-6">
-    <p className={`text-sm md:text-base text-white/70 leading-relaxed font-light tracking-wide transition-all duration-700 ease-in-out ${
-      isExpanded ? "line-clamp-none" : "line-clamp-2"
-    }`}>
-      {movie.overview}
-    </p>
-    
-    <button
-      onClick={() => setIsExpanded(!isExpanded)}
-      className="mt-3 flex items-center gap-2 text-[11px] font-bold tracking-[0.2em] text-[#22c55e]/80 hover:text-[#22c55e] transition-colors duration-300 uppercase group/btn"
-    >
-      <span className="relative">
-        {isExpanded ? "Read Less" : "Show More"}
-        {/* Underline effect */}
-        <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#22c55e] transition-all duration-500 group-hover/btn:w-full" />
-      </span>
-      
-      {/* Subtle arrow icon that rotates */}
-      <ChevronDown 
-        size={14} 
-        className={`transition-transform duration-500 ease-out ${isExpanded ? "rotate-180" : "rotate-0"}`} 
-      />
-    </button>
-  </div>
-</div>
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold tracking-tight text-white leading-[1.1]">
+              {movie?.title}
+            </h1>
+            
+            {movie?.tagline && (
+              <p className="text-lg lg:text-xl text-white/50 font-light italic">
+                {movie.tagline}
+              </p>
+            )}
+          </div>
 
-            <div className="pt-2">
-              <button
-                onClick={() =>
-                  !user ? navigate("/login") : setOpenModal(true)
-                }
-                className="flex items-center gap-2 px-6 py-2.5 bg-white text-black rounded-full text-[11px] font-semibold tracking-wider uppercase transition-all duration-300 hover:bg-emerald-400 hover:text-black hover:gap-3 group"
-              >
-                <Plus
-                  size={14}
-                  className="transition-transform duration-300 group-hover:rotate-90"
-                />
+          {/* Rating & Info Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-4 border-y border-white/10">
+            {/* TMDB Rating */}
+            <div className="space-y-1">
+              <div className="flex items-center gap-1.5">
+                <Star className="w-4 h-4 text-emerald-500 fill-emerald-500" />
+                <span className="text-2xl font-bold text-white">
+                  {movie?.vote_average?.toFixed(1)}
+                </span>
+              </div>
+              <p className="text-[11px] text-white/50 uppercase tracking-wider">
+                TMDB Rating
+              </p>
+              <p className="text-xs text-white/40">
+                {movie?.vote_count?.toLocaleString()} votes
+              </p>
+            </div>
+
+            {/* Runtime */}
+            <div className="space-y-1">
+              <div className="flex items-center gap-1.5">
+                <Clock className="w-4 h-4 text-emerald-500" />
+                <span className="text-xl font-semibold text-white">
+                  {Math.floor(movie?.runtime / 60)}h {movie?.runtime % 60}m
+                </span>
+              </div>
+              <p className="text-[11px] text-white/50 uppercase tracking-wider">
+                Runtime
+              </p>
+            </div>
+
+            {/* Release Date */}
+            <div className="space-y-1">
+              <div className="flex items-center gap-1.5">
+                <Calendar className="w-4 h-4 text-emerald-500" />
+                <span className="text-base font-medium text-white">
+                  {movie?.release_date 
+                    ? new Date(movie.release_date).toLocaleDateString('en-US', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                      })
+                    : "Coming Soon"
+                  }
+                </span>
+              </div>
+              <p className="text-[11px] text-white/50 uppercase tracking-wider">
+                Release Date
+              </p>
+            </div>
+
+            {/* Language */}
+            <div className="space-y-1">
+              <div className="flex items-center gap-1.5">
+                <svg className="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+                </svg>
+                <span className="text-base font-medium text-white uppercase">
+                  {movie?.original_language?.toUpperCase() || "EN"}
+                </span>
+              </div>
+              <p className="text-[11px] text-white/50 uppercase tracking-wider">
+                Language
+              </p>
+            </div>
+          </div>
+
+          {/* Genres */}
+          {movie?.genres && movie.genres.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {movie.genres.slice(0, 4).map((genre) => (
+                <span
+                  key={genre.id}
+                  className="px-3 py-1 text-xs font-medium text-white/80 bg-white/5 backdrop-blur-sm rounded-full border border-white/10 hover:border-emerald-500/50 transition-all duration-300"
+                >
+                  {genre.name}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* Overview / Description */}
+          <div className="space-y-4">
+            <h3 className="text-xs font-bold tracking-[0.2em] uppercase text-emerald-500">
+              Synopsis
+            </h3>
+            <div className="relative">
+              <p className={`text-white/80 leading-relaxed text-base lg:text-lg font-light transition-all duration-500 ${
+                isExpanded ? "" : "line-clamp-3"
+              }`}>
+                {movie?.overview || "No synopsis available for this movie."}
+              </p>
+              
+              {movie?.overview && movie.overview.length > 200 && (
+                <button
+                  onClick={() => setIsExpanded(!isExpanded)}
+                  className="mt-3 group inline-flex items-center gap-2 text-sm font-medium text-emerald-500 hover:text-emerald-400 transition-all duration-300"
+                >
+                  <span className="relative">
+                    {isExpanded ? "Show less" : "Read more"}
+                    <span className="absolute -bottom-1 left-0 w-0 h-px bg-emerald-500 transition-all duration-300 group-hover:w-full" />
+                  </span>
+                  <ChevronDown
+                    size={16}
+                    className={`transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}
+                  />
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex flex-wrap gap-4 pt-4">
+            <button
+              onClick={() => !user ? navigate("/login") : setOpenModal(true)}
+              className="group relative px-8 py-3 bg-emerald-600 hover:bg-emerald-500 rounded-full text-white font-semibold text-sm transition-all duration-300 overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="relative flex items-center gap-2">
+                <Plus size={18} className="transition-transform duration-300 group-hover:rotate-90" />
                 <span>Add to Watchlist</span>
+              </div>
+            </button>
+
+            {/* Trailer Button (if available) */}
+            {movie?.videos?.results?.length > 0 && (
+              <button className="px-8 py-3 bg-white/10 backdrop-blur-sm hover:bg-white/20 rounded-full text-white font-semibold text-sm transition-all duration-300 border border-white/20 flex items-center gap-2">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+                Watch Trailer
               </button>
-            </div>
+            )}
           </div>
         </div>
       </div>
-
+    </div>
+  </div>
+</div>
       {/* CONTENT GRID */}
       <div className="px-6 md:px-16 py-20 grid grid-cols-1 lg:grid-cols-3 gap-16">
         <div className="lg:col-span-2 space-y-16">
@@ -365,7 +474,6 @@ export default function MovieDetail() {
                 </span>
               </h2>
 
-              {/* Optional: A very faint trailing line to frame the text */}
               <div className="h-[1px] flex-1 bg-white/[0.03]" />
             </div>
 
