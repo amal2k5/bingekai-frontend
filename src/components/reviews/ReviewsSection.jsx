@@ -11,6 +11,7 @@ import {
   Star,
   ChevronRight,
   Heart,
+  ChevronDown,
 } from "lucide-react";
 import {
   getReviews,
@@ -23,6 +24,10 @@ import { useNavigate } from "react-router-dom";
 import SpoilerWarning from "./SpoilerWarning";
 import api from "../../api/api";
 import ReviewReportModal from "./ReviewReportModal";
+
+
+
+
 
 export default function ReviewsSection({ movieId, rating }) {
   const [reviews, setReviews] = useState([]);
@@ -205,7 +210,6 @@ export default function ReviewsSection({ movieId, rating }) {
 
   return (
     <div className="mt-20 max-w-4xl mx-auto px-6 pb-20 relative">
-      {/* Toast Notification */}
       {toast.show && (
         <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[200] animate-in fade-in slide-in-from-top-2 duration-300">
           <div
@@ -227,7 +231,7 @@ export default function ReviewsSection({ movieId, rating }) {
         </div>
       )}
 
-      {/* Header */}
+    
       <div className="flex items-end justify-between mb-12">
         <div>
           <div className="flex items-center gap-2 text-sm font-medium text-emerald-400/80 uppercase tracking-wider mb-2">
@@ -243,7 +247,7 @@ export default function ReviewsSection({ movieId, rating }) {
         </div>
 
         <div className="flex items-center gap-3">
-          {/* Sort Toggle */}
+
           <div className="flex gap-2">
             <button
               onClick={() => setSort("top")}
@@ -267,7 +271,6 @@ export default function ReviewsSection({ movieId, rating }) {
             </button>
           </div>
 
-          {/* Write Review Button */}
           <button
             onClick={() => setIsModalOpen(true)}
             className="flex items-center gap-2 px-5 py-2.5 bg-white/5 hover:bg-white/10 rounded-xl transition-all duration-300 border border-white/10 hover:border-emerald-500/30 text-gray-300 hover:text-white text-sm font-medium backdrop-blur-sm"
@@ -278,7 +281,7 @@ export default function ReviewsSection({ movieId, rating }) {
         </div>
       </div>
 
-      {/* Reviews List */}
+
       <div className="space-y-6">
         {loading ? (
           <div className="space-y-5">
@@ -302,10 +305,7 @@ export default function ReviewsSection({ movieId, rating }) {
             const contentLength = r.content?.length || 0;
             const shouldTruncate = contentLength > 300;
             const isExpanded = expandedReviews[r.id] || false;
-            const displayContent =
-              shouldTruncate && !isExpanded
-                ? r.content?.slice(0, 300) + "..."
-                : r.content;
+            const displayContent = isExpanded ? r.content : r.content;
 
             return (
               <div
@@ -373,7 +373,7 @@ export default function ReviewsSection({ movieId, rating }) {
                     </div>
                   </div>
 
-                  {/* Rating Display */}
+                 
                   <div className="flex items-center gap-1 mb-3 ml-8">
                     {[...Array(5)].map((_, i) => (
                       <Star
@@ -391,7 +391,7 @@ export default function ReviewsSection({ movieId, rating }) {
                     </span>
                   </div>
 
-                  {/* Review Content */}
+          
                   <div className="relative pl-8">
                     <Quote
                       size={18}
@@ -407,33 +407,35 @@ export default function ReviewsSection({ movieId, rating }) {
                       />
                     ) : (
                       <div className="space-y-3">
-                        <p className="text-gray-300 leading-relaxed whitespace-pre-wrap break-words">
+                        <p
+                          className={`text-gray-300 leading-relaxed whitespace-pre-wrap break-words transition-all duration-300 ${
+                            !isExpanded && shouldTruncate ? "line-clamp-3" : ""
+                          }`}
+                        >
                           {displayContent}
                         </p>
                         {shouldTruncate && (
                           <button
                             onClick={() => toggleReviewExpansion(r.id)}
-                            className="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-400 hover:text-emerald-300 transition-all duration-300 group/readmore"
+                            className="group/expand inline-flex items-center gap-1.5 text-[11px] font-medium transition-all duration-200"
                           >
-                            <span className="relative">
-                              {isExpanded ? "Show less" : "Read more"}
-                              <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-gradient-to-r from-emerald-400 to-transparent transition-all duration-300 group-hover/readmore:w-full"></span>
-                            </span>
-                            <svg
-                              className={`w-3.5 h-3.5 transition-transform duration-300 ${
-                                isExpanded ? "rotate-180" : ""
+                            <ChevronDown
+                              size={14}
+                              className={`transition-all duration-200 ${
+                                isExpanded
+                                  ? "text-emerald-400 rotate-180"
+                                  : "text-gray-500 group-hover/expand:text-emerald-400"
                               }`}
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
+                            />
+                            <span
+                              className={`tracking-wide transition-colors duration-200 ${
+                                isExpanded
+                                  ? "text-gray-500"
+                                  : "text-gray-500 group-hover/expand:text-emerald-400"
+                              }`}
                             >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M19 9l-7 7-7-7"
-                              />
-                            </svg>
+                              {isExpanded ? "Show less" : "Read more"}
+                            </span>
                           </button>
                         )}
                       </div>
