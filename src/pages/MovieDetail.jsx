@@ -128,7 +128,8 @@ export default function MovieDetail() {
       />
 
       {/* HERO & MOVIE DETAILS OVERLAY */}
-<div className="relative min-h-[90vh] w-full overflow-hidden">
+{/* HERO & MOVIE DETAILS OVERLAY */}
+<div className="relative min-h-[90vh] w-full overflow-hidden pt-20 lg:pt-24">
   {/* Premium Background Layer */}
   <div className="absolute inset-0">
     {/* Main Backdrop with Parallax */}
@@ -166,11 +167,11 @@ export default function MovieDetail() {
   </div>
 
   {/* Main Content Container */}
-  <div className="relative z-10 h-full min-h-[90vh] flex items-end">
+  <div className="relative z-10 h-full min-h-[90vh] flex items-center lg:items-end">
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 lg:pb-20">
       
       {/* Hero Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center lg:items-end">
         
         {/* Poster Column - High Quality Display */}
         <div className="lg:col-span-3 hidden lg:block">
@@ -232,7 +233,7 @@ export default function MovieDetail() {
             </div>
 
             {/* Movie Title */}
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-[1.1]">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-white leading-[1.15]">
               {movie?.title}
             </h1>
             
@@ -244,18 +245,18 @@ export default function MovieDetail() {
             )}
           </div>
 
-          {/* Stats Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-4 border-y border-white/10">
+          {/* Stats Grid - Cleaner Layout */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-5 py-5 border-y border-white/10">
             {/* Score */}
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center">
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-full bg-emerald-500/15 flex items-center justify-center">
                   <Star className="w-4 h-4 text-emerald-500 fill-emerald-500" />
                 </div>
                 <div>
-                  <p className="text-xl font-bold text-white">
+                  <p className="text-lg font-bold text-white">
                     {movie?.vote_average?.toFixed(1)}
-                    <span className="text-xs text-white/40">/10</span>
+                    <span className="text-xs text-white/40 ml-0.5">/10</span>
                   </p>
                   <p className="text-[10px] text-white/50 uppercase tracking-wider">
                     User Score
@@ -265,9 +266,9 @@ export default function MovieDetail() {
             </div>
 
             {/* Runtime */}
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center">
                   <Clock className="w-4 h-4 text-emerald-500" />
                 </div>
                 <div>
@@ -282,9 +283,9 @@ export default function MovieDetail() {
             </div>
 
             {/* Release */}
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center">
                   <Calendar className="w-4 h-4 text-emerald-500" />
                 </div>
                 <div>
@@ -303,9 +304,9 @@ export default function MovieDetail() {
             </div>
 
             {/* Language */}
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center">
                   <span className="text-sm font-bold text-emerald-500">
                     {movie?.original_language?.toUpperCase()}
                   </span>
@@ -324,11 +325,11 @@ export default function MovieDetail() {
 
           {/* Genres */}
           {movie?.genres && movie.genres.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {movie.genres.slice(0, 4).map((genre) => (
+            <div className="flex flex-wrap gap-2.5">
+              {movie.genres.slice(0, 5).map((genre) => (
                 <span
                   key={genre.id}
-                  className="px-3 py-1.5 text-xs font-medium text-white/80 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 hover:border-emerald-500/50 hover:bg-emerald-500/10 transition-all duration-300 cursor-pointer"
+                  className="px-3.5 py-1.5 text-xs font-medium text-white/80 bg-white/5 backdrop-blur-sm rounded-full border border-white/10 hover:border-emerald-500/50 hover:bg-emerald-500/10 hover:text-white transition-all duration-300 cursor-pointer"
                 >
                   {genre.name}
                 </span>
@@ -337,12 +338,12 @@ export default function MovieDetail() {
           )}
 
           {/* Overview */}
-          <div className="space-y-3">
+          <div className="space-y-3 max-w-3xl">
             <h3 className="text-xs font-bold tracking-[0.2em] uppercase text-emerald-500">
               Synopsis
             </h3>
             <div className="relative">
-              <p className={`text-white/80 leading-relaxed text-base lg:text-lg font-light transition-all duration-500 ${
+              <p className={`text-white/75 leading-relaxed text-base lg:text-lg font-light transition-all duration-500 ${
                 isExpanded ? "" : "line-clamp-3"
               }`}>
                 {movie?.overview || "No synopsis available for this movie."}
@@ -366,8 +367,8 @@ export default function MovieDetail() {
             </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex flex-wrap gap-4 pt-4">
+          {/* Action Buttons - Share Removed */}
+          <div className="flex flex-wrap gap-4 pt-6">
             <button
               onClick={() => !user ? navigate("/login") : setOpenModal(true)}
               className="group relative px-8 py-3 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 rounded-full text-white font-semibold text-sm transition-all duration-300 shadow-lg hover:shadow-emerald-500/25"
@@ -385,18 +386,14 @@ export default function MovieDetail() {
                 Watch Trailer
               </button>
             )}
-
-            {/* Share Button */}
-            <button className="px-8 py-3 bg-white/5 backdrop-blur-sm hover:bg-white/15 rounded-full text-white/80 hover:text-white font-medium text-sm transition-all duration-300 border border-white/10 flex items-center gap-2">
-              <Share2 size={16} />
-              Share
-            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+
       {/* CONTENT GRID */}
       <div className="px-6 md:px-16 py-20 grid grid-cols-1 lg:grid-cols-3 gap-16">
         <div className="lg:col-span-2 space-y-16">
