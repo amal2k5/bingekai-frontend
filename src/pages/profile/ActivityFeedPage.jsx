@@ -7,6 +7,8 @@ import {
 import ActivityFeedCard from "../../components/social/ActivityFeedCard";
 import TrendingReviewCard from "../../components/social/TrendingReviewCard";
 
+
+
 export default function ActivityFeedPage() {
   const [activeTab, setActiveTab] = useState("following");
   const [feed, setFeed] = useState([]);
@@ -191,7 +193,7 @@ export default function ActivityFeedPage() {
   );
 }
 
-// Professional Loading Skeleton with shimmer effect
+
 const LoadingSkeleton = () => {
   return (
     <div className="space-y-4">
@@ -236,12 +238,10 @@ const LoadingSkeleton = () => {
             </div>
           </div>
           
-          {/* Shimmer animation overlay */}
           <div className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent" />
         </motion.div>
       ))}
       
-      {/* Add shimmer keyframes to your global CSS or tailwind config */}
       <style jsx>{`
         @keyframes shimmer {
           100% {
@@ -256,7 +256,7 @@ const LoadingSkeleton = () => {
   );
 };
 
-// Empty state component for better UX
+
 const EmptyState = ({ message, subMessage }) => (
   <motion.div
     initial={{ opacity: 0, y: 10 }}

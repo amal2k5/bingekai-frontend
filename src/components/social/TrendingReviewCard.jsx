@@ -8,6 +8,8 @@ import SpoilerWarning from "../reviews/SpoilerWarning";
 import api from "../../api/api";
 import ReviewReportModal from "../reviews/ReviewReportModal";
 
+
+
 function TrendingReviewCard({ item }) {
   const [movieData, setMovieData] = useState(null);
   const [expanded, setExpanded] = useState(false);
@@ -88,7 +90,6 @@ function TrendingReviewCard({ item }) {
     return stars;
   };
 
-  // Calculate if content needs truncation (more than 120 characters or 3 lines)
   const shouldTruncate = content && content.length > 120;
   const displayContent = expanded ? content : (shouldTruncate ? content?.slice(0, 120) + '...' : content);
 
@@ -98,7 +99,6 @@ function TrendingReviewCard({ item }) {
     navigate(`/users/${userId}`);
   };
 
-  // Trending badge
   const isTrending = recent_likes && recent_likes > 5;
 
   return (
@@ -119,7 +119,6 @@ function TrendingReviewCard({ item }) {
 
         {/* Top Row: Avatar, Username, Action, Movie Title, Date */}
         <div className="flex items-center gap-3 mb-4 flex-wrap pr-16">
-          {/* Avatar */}
           <div
             onClick={handleUserClick}
             className="relative w-8 h-8 rounded-full overflow-hidden border border-white/10 cursor-pointer hover:border-emerald-500/50 transition-all duration-300 flex-shrink-0"
@@ -138,7 +137,6 @@ function TrendingReviewCard({ item }) {
             )}
           </div>
 
-          {/* Username */}
           <span
             onClick={handleUserClick}
             className="text-sm font-semibold text-zinc-100 whitespace-nowrap hover:text-emerald-400 transition-colors cursor-pointer"
@@ -146,12 +144,11 @@ function TrendingReviewCard({ item }) {
             @{username}
           </span>
 
-          {/* Action text */}
+
           <span className="text-xs text-zinc-400 whitespace-nowrap">
             {rating && content ? "rated and reviewed" : content && !rating ? "reviewed" : rating && !content ? "rated" : "shared"}
           </span>
 
-          {/* Movie title */}
           <span
             onClick={handleMovieClick}
             className="text-sm font-medium text-emerald-400 truncate min-w-0 flex-1 hover:text-emerald-300 transition-colors cursor-pointer"
@@ -159,7 +156,6 @@ function TrendingReviewCard({ item }) {
             {movieData?.title || `Movie #${movie_id}`}
           </span>
 
-          {/* Date */}
           <span className="text-[10px] text-zinc-400 uppercase tracking-wider flex-shrink-0">
             {new Date(created_at).toLocaleDateString("en-US", {
               month: "short",
@@ -171,7 +167,6 @@ function TrendingReviewCard({ item }) {
 
         {/* Main Content Row: Poster + Rating + Review */}
         <div className="flex gap-5 relative">
-          {/* Poster */}
           <div
             onClick={handleMovieClick}
             className="relative h-40 w-28 flex-shrink-0 overflow-hidden bg-zinc-900 shadow-lg border border-white/10 transition-all duration-500 cursor-pointer rounded-md"
@@ -193,7 +188,6 @@ function TrendingReviewCard({ item }) {
 
           {/* Content Section */}
           <div className="flex flex-1 flex-col min-w-0 gap-3">
-            {/* Rating Stars - Same styling as review section */}
             {rating && (
               <div className="flex items-center gap-0.5 text-sm bg-white/5 rounded-lg p-3 border border-white/5">
                 <span className="text-zinc-400 mr-2 text-xs">Rating:</span>
@@ -202,7 +196,6 @@ function TrendingReviewCard({ item }) {
               </div>
             )}
 
-            {/* Review Text with Spoiler Logic */}
             {content && (
               <div>
                 {item.has_spoiler ? (
@@ -213,14 +206,12 @@ function TrendingReviewCard({ item }) {
                   />
                 ) : (
 <div className="relative bg-white/[0.03] rounded-lg p-3 border border-white/5 hover:bg-white/[0.06] transition-all duration-300">
-  {/* Review Text Area with smooth height transition */}
   <AnimatePresence mode="wait">
     <motion.div
       key={expanded ? "expanded" : "collapsed"}
       initial={false}
       animate={{ height: "auto" }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
-      className="relative"
     >
       <p className={`text-[12.5px] text-zinc-400 leading-relaxed whitespace-pre-wrap break-words transition-all duration-300 ${
         !expanded ? "line-clamp-2 opacity-80" : "opacity-100"
@@ -230,62 +221,33 @@ function TrendingReviewCard({ item }) {
     </motion.div>
   </AnimatePresence>
   
-  {/* Standard Premium Expansion Toggle */}
   {content?.length > 100 && (
-    <div className="mt-3 flex items-center justify-between gap-3 pt-1 border-t border-white/5">
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          setExpanded(!expanded);
-        }}
-        className="group flex items-center gap-2 text-xs font-medium transition-all duration-200"
+    <button
+      onClick={(e) => {
+        e.stopPropagation();
+        setExpanded(!expanded);
+      }}
+      className="mt-2 group inline-flex items-center gap-1.5 text-[11px] font-medium transition-all duration-200"
+    >
+      {/* Premium Icon - Plus/Minus */}
+      <svg 
+        className={`w-3.5 h-3.5 transition-all duration-200 ${
+          expanded ? "text-emerald-400 rotate-45" : "text-zinc-500 group-hover:text-emerald-400"
+        }`}
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2.5}
       >
-        {/* Premium Icon */}
-        <div className="relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/20 to-amber-500/20 rounded-full blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          <svg 
-            className={`w-4 h-4 relative transition-all duration-300 ${
-              expanded 
-                ? "text-emerald-400 rotate-180" 
-                : "text-zinc-500 group-hover:text-emerald-400 group-hover:scale-110"
-            }`}
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M19 9l-7 7-7-7"
-            />
-          </svg>
-        </div>
-        
-        <span className={`tracking-wide transition-colors duration-200 ${
-          expanded 
-            ? "text-zinc-400 group-hover:text-zinc-300" 
-            : "text-zinc-500 group-hover:text-emerald-400"
-        }`}>
-          {expanded ? "Show less" : "Read more"}
-        </span>
-        
-        {/* Premium accent line */}
-        <div className={`h-px w-0 group-hover:w-6 transition-all duration-300 bg-gradient-to-r from-emerald-500 to-transparent ${
-          expanded ? "opacity-0" : "opacity-100"
-        }`} />
-      </button>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+      </svg>
       
-      {/* Status indicator - shows when expanded */}
-      {expanded && (
-        <div className="flex items-center gap-1.5">
-          <div className="w-1 h-1 rounded-full bg-emerald-500/60 animate-pulse" />
-          <span className="text-[9px] font-medium uppercase tracking-wider text-emerald-500/60">
-            Expanded
-          </span>
-        </div>
-      )}
-    </div>
+      <span className={`tracking-wide ${
+        expanded ? "text-zinc-500" : "text-zinc-500 group-hover:text-emerald-400"
+      }`}>
+        {expanded ? "Show less" : "Read more"}
+      </span>
+    </button>
   )}
 </div>
                 )}
