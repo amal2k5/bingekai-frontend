@@ -166,12 +166,12 @@ export default function MovieDetail() {
     <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-emerald-500 to-transparent animate-pulse" />
   </div>
 
-  {/* Main Content Container */}
-  <div className="relative z-10 h-full min-h-[90vh] flex items-center lg:items-end">
-    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 lg:pb-20">
+  {/* Main Content Container - Adjusted vertical position */}
+  <div className="relative z-10 h-full min-h-[90vh] flex items-center">
+    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 lg:pb-12">
       
       {/* Hero Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center lg:items-end">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
         
         {/* Poster Column - High Quality Display */}
         <div className="lg:col-span-3 hidden lg:block">
