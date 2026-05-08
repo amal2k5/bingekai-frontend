@@ -10,7 +10,15 @@ import {
 import RatingStars from "../components/RatingStars";
 import ReviewsSection from "../components/reviews/ReviewsSection";
 import WatchlistModal from "../components/watchlist/WatchlistModal";
-import { Plus, Film, Star, Calendar, Clock, ChevronDown, Share2 } from "lucide-react";
+import {
+  Plus,
+  Film,
+  Star,
+  Calendar,
+  Clock,
+  ChevronDown,
+  Share2,
+} from "lucide-react";
 
 const IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 const BACKDROP_BASE = "https://image.tmdb.org/t/p/original";
@@ -128,271 +136,273 @@ export default function MovieDetail() {
       />
 
       {/* HERO & MOVIE DETAILS OVERLAY */}
-{/* HERO & MOVIE DETAILS OVERLAY */}
-<div className="relative min-h-[90vh] w-full overflow-hidden pt-20 lg:pt-24">
-  {/* Premium Background Layer */}
-  <div className="absolute inset-0">
-    {/* Main Backdrop with Parallax */}
-    <div className="absolute inset-0 overflow-hidden">
-      <img
-        src={
-          movie?.backdrop_path
-            ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
-            : "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=2070"
-        }
-        className="w-full h-full object-cover object-center"
-        style={{
-          filter: "brightness(0.4) saturate(1.1)",
-          transform: "scale(1.02)",
-        }}
-        alt={movie.title}
-      />
-    </div>
+      {/* HERO & MOVIE DETAILS OVERLAY */}
+      <div className="relative min-h-[90vh] w-full overflow-hidden pt-20 lg:pt-24">
+        {/* Premium Background Layer */}
+        <div className="absolute inset-0">
+          {/* Main Backdrop with Parallax */}
+          <div className="absolute inset-0 overflow-hidden">
+            <img
+              src={
+                movie?.backdrop_path
+                  ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
+                  : "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=2070"
+              }
+              className="w-full h-full object-cover object-center"
+              style={{
+                filter: "brightness(0.4) saturate(1.1)",
+                transform: "scale(1.02)",
+              }}
+              alt={movie.title}
+            />
+          </div>
 
-    {/* Advanced Gradient System */}
-    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
-    <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent" />
-    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_50%,transparent_0%,rgba(0,0,0,0.6)_100%)]" />
-    
-    {/* Premium Texture Overlay */}
-    <div className="absolute inset-0 opacity-30 mix-blend-overlay" 
-         style={{
-           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-           backgroundRepeat: 'repeat',
-           backgroundSize: '200px',
-         }} />
-    
-    {/* Animated Border Glow */}
-    <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-emerald-500 to-transparent animate-pulse" />
-  </div>
+          {/* Advanced Gradient System */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_50%,transparent_0%,rgba(0,0,0,0.6)_100%)]" />
 
-  {/* Main Content Container - Adjusted vertical position */}
-  <div className="relative z-10 h-full min-h-[90vh] flex items-center">
-    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 lg:pb-12">
-      
-      {/* Hero Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-        
-        {/* Poster Column - High Quality Display */}
-        <div className="lg:col-span-3 hidden lg:block">
-          <div className="relative group">
-            {/* Poster Glow Effect */}
-            <div className="absolute -inset-3 bg-gradient-to-r from-emerald-500/20 to-emerald-600/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500" />
-            
-            {/* Poster Container */}
-            <div className="relative rounded-xl overflow-hidden shadow-2xl transform transition-all duration-500 group-hover:scale-105 group-hover:shadow-emerald-500/20">
-              <img
-                src={
-                  movie?.poster_path
-                    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-                    : "https://via.placeholder.com/500x750?text=No+Poster"
-                }
-                srcSet={`
+          {/* Premium Texture Overlay */}
+          <div
+            className="absolute inset-0 opacity-30 mix-blend-overlay"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+              backgroundRepeat: "repeat",
+              backgroundSize: "200px",
+            }}
+          />
+
+          {/* Animated Border Glow */}
+          <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-emerald-500 to-transparent animate-pulse" />
+        </div>
+
+        {/* Main Content Container - Adjusted vertical position */}
+        <div className="relative z-10 h-full min-h-[90vh] flex items-center">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 lg:pb-12">
+            {/* Hero Content Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+              {/* Poster Column - High Quality Display */}
+              <div className="lg:col-span-3 hidden lg:block">
+                <div className="relative group">
+               
+                  <div className="absolute -inset-3 bg-gradient-to-r from-emerald-500/20 to-emerald-600/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500" />
+
+                  <div className="relative rounded-xl overflow-hidden shadow-2xl transform transition-all duration-500 group-hover:scale-105 group-hover:shadow-emerald-500/20">
+                    <img
+                      src={
+                        movie?.poster_path
+                          ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                          : "https://via.placeholder.com/500x750?text=No+Poster"
+                      }
+                      srcSet={`
                   https://image.tmdb.org/t/p/w342${movie?.poster_path} 342w,
                   https://image.tmdb.org/t/p/w500${movie?.poster_path} 500w
                 `}
-                sizes="(max-width: 1024px) 342px, 500px"
-                alt={movie?.title}
-                className="w-full h-auto object-cover"
-                loading="eager"
-              />
-              
-              {/* Rating Badge Overlay */}
-              <div className="absolute top-3 right-3 bg-black/80 backdrop-blur-md rounded-full px-3 py-1.5 flex items-center gap-1.5 border border-white/10">
-                <Star className="w-3 h-3 text-emerald-500 fill-emerald-500" />
-                <span className="text-white font-bold text-xs">
-                  {movie?.vote_average?.toFixed(1)}
-                </span>
+                      sizes="(max-width: 1024px) 342px, 500px"
+                      alt={movie?.title}
+                      className="w-full h-auto object-cover"
+                      loading="eager"
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </div>
 
-        {/* Content Column */}
-        <div className="lg:col-span-9 space-y-6">
-          
-          {/* Title Section */}
-          <div className="space-y-3">
-            {/* Meta Badges */}
-            <div className="flex flex-wrap items-center gap-2">
-              {movie?.adult === false && (
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-[10px] font-bold tracking-wider bg-white/10 backdrop-blur-sm text-white/90 border border-white/20">
-                  PG-13
-                </span>
-              )}
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-[10px] font-bold tracking-wider bg-emerald-500/20 backdrop-blur-sm text-emerald-400 border border-emerald-500/30">
-                {new Date(movie?.release_date).getFullYear()}
-              </span>
-              
-              {/* Certification */}
-              {movie?.certification && (
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-[10px] font-bold tracking-wider bg-white/10 backdrop-blur-sm text-white/90 border border-white/20">
-                  {movie.certification}
-                </span>
-              )}
-            </div>
-
-            {/* Movie Title */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-white leading-[1.15]">
-              {movie?.title}
-            </h1>
+        
+              <div className="lg:col-span-9 space-y-6">
             
-            {/* Tagline */}
-            {movie?.tagline && (
-              <p className="text-base sm:text-lg text-white/50 font-light italic">
-                {movie.tagline}
-              </p>
-            )}
-          </div>
-
-          {/* Stats Grid - Cleaner Layout */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-5 py-5 border-y border-white/10">
-            {/* Score */}
-            <div className="space-y-1.5">
-              <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-full bg-emerald-500/15 flex items-center justify-center">
-                  <Star className="w-4 h-4 text-emerald-500 fill-emerald-500" />
-                </div>
-                <div>
-                  <p className="text-lg font-bold text-white">
-                    {movie?.vote_average?.toFixed(1)}
-                    <span className="text-xs text-white/40 ml-0.5">/10</span>
-                  </p>
-                  <p className="text-[10px] text-white/50 uppercase tracking-wider">
-                    User Score
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Runtime */}
-            <div className="space-y-1.5">
-              <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center">
-                  <Clock className="w-4 h-4 text-emerald-500" />
-                </div>
-                <div>
-                  <p className="text-base font-semibold text-white">
-                    {Math.floor(movie?.runtime / 60)}h {movie?.runtime % 60}m
-                  </p>
-                  <p className="text-[10px] text-white/50 uppercase tracking-wider">
-                    Runtime
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Release */}
-            <div className="space-y-1.5">
-              <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center">
-                  <Calendar className="w-4 h-4 text-emerald-500" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-white">
-                    {new Date(movie?.release_date).toLocaleDateString('en-US', { 
-                      month: 'short', 
-                      day: 'numeric',
-                      year: 'numeric'
-                    })}
-                  </p>
-                  <p className="text-[10px] text-white/50 uppercase tracking-wider">
-                    Released
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Language */}
-            <div className="space-y-1.5">
-              <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center">
-                  <span className="text-sm font-bold text-emerald-500">
-                    {movie?.original_language?.toUpperCase()}
-                  </span>
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-white">
-                    {movie?.original_language?.toUpperCase()}
-                  </p>
-                  <p className="text-[10px] text-white/50 uppercase tracking-wider">
-                    Language
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Genres */}
-          {movie?.genres && movie.genres.length > 0 && (
-            <div className="flex flex-wrap gap-2.5">
-              {movie.genres.slice(0, 5).map((genre) => (
-                <span
-                  key={genre.id}
-                  className="px-3.5 py-1.5 text-xs font-medium text-white/80 bg-white/5 backdrop-blur-sm rounded-full border border-white/10 hover:border-emerald-500/50 hover:bg-emerald-500/10 hover:text-white transition-all duration-300 cursor-pointer"
-                >
-                  {genre.name}
-                </span>
-              ))}
-            </div>
-          )}
-
-          {/* Overview */}
-          <div className="space-y-3 max-w-3xl">
-            <h3 className="text-xs font-bold tracking-[0.2em] uppercase text-emerald-500">
-              Synopsis
-            </h3>
-            <div className="relative">
-              <p className={`text-white/75 leading-relaxed text-base lg:text-lg font-light transition-all duration-500 ${
-                isExpanded ? "" : "line-clamp-3"
-              }`}>
-                {movie?.overview || "No synopsis available for this movie."}
-              </p>
+                <div className="space-y-3">
               
-              {movie?.overview && movie.overview.length > 200 && (
-                <button
-                  onClick={() => setIsExpanded(!isExpanded)}
-                  className="mt-3 group inline-flex items-center gap-2 text-sm font-medium text-emerald-500 hover:text-emerald-400 transition-all duration-300"
-                >
-                  <span className="relative">
-                    {isExpanded ? "Show less" : "Read more"}
-                    <span className="absolute -bottom-1 left-0 w-0 h-px bg-emerald-500 transition-all duration-300 group-hover:w-full" />
-                  </span>
-                  <ChevronDown
-                    size={16}
-                    className={`transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}
-                  />
-                </button>
-              )}
-            </div>
-          </div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    {movie?.adult === false && (
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-[10px] font-bold tracking-wider bg-white/10 backdrop-blur-sm text-white/90 border border-white/20">
+                        PG-13
+                      </span>
+                    )}
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-[10px] font-bold tracking-wider bg-emerald-500/20 backdrop-blur-sm text-emerald-400 border border-emerald-500/30">
+                      {new Date(movie?.release_date).getFullYear()}
+                    </span>
 
-          {/* Action Buttons - Share Removed */}
-          <div className="flex flex-wrap gap-4 pt-6">
-            <button
-              onClick={() => !user ? navigate("/login") : setOpenModal(true)}
-              className="group relative px-8 py-3 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 rounded-full text-white font-semibold text-sm transition-all duration-300 shadow-lg hover:shadow-emerald-500/25"
-            >
-              <div className="flex items-center gap-2">
-                <Plus size={18} className="transition-transform duration-300 group-hover:rotate-90" />
-                <span>Add to Watchlist</span>
+                    {movie?.certification && (
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-[10px] font-bold tracking-wider bg-white/10 backdrop-blur-sm text-white/90 border border-white/20">
+                        {movie.certification}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Movie Title */}
+                  <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-white leading-[1.15]">
+                    {movie?.title}
+                  </h1>
+
+                  {/* Tagline */}
+                  {movie?.tagline && (
+                    <p className="text-base sm:text-lg text-white/50 font-light italic">
+                      {movie.tagline}
+                    </p>
+                  )}
+                </div>
+
+                {/* Stats Grid - Cleaner Layout */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-5 py-5 border-y border-white/10">
+                  {/* Score */}
+                  <div className="space-y-1.5">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-9 h-9 rounded-full bg-emerald-500/15 flex items-center justify-center">
+                        <Star className="w-4 h-4 text-emerald-500 fill-emerald-500" />
+                      </div>
+                      <div>
+                        <p className="text-lg font-bold text-white">
+                          {movie?.vote_average?.toFixed(1)}
+                          <span className="text-xs text-white/40 ml-0.5">
+                            /10
+                          </span>
+                        </p>
+                        <p className="text-[10px] text-white/50 uppercase tracking-wider">
+                          TMDB SCORE
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Runtime */}
+                  <div className="space-y-1.5">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center">
+                        <Clock className="w-4 h-4 text-emerald-500" />
+                      </div>
+                      <div>
+                        <p className="text-base font-semibold text-white">
+                          {Math.floor(movie?.runtime / 60)}h{" "}
+                          {movie?.runtime % 60}m
+                        </p>
+                        <p className="text-[10px] text-white/50 uppercase tracking-wider">
+                          Runtime
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Release */}
+                  <div className="space-y-1.5">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center">
+                        <Calendar className="w-4 h-4 text-emerald-500" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-white">
+                          {new Date(movie?.release_date).toLocaleDateString(
+                            "en-US",
+                            {
+                              month: "short",
+                              day: "numeric",
+                              year: "numeric",
+                            },
+                          )}
+                        </p>
+                        <p className="text-[10px] text-white/50 uppercase tracking-wider">
+                          Released
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Language */}
+                  <div className="space-y-1.5">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center">
+                        <span className="text-sm font-bold text-emerald-500">
+                          {movie?.original_language?.toUpperCase()}
+                        </span>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-white">
+                          {movie?.original_language?.toUpperCase()}
+                        </p>
+                        <p className="text-[10px] text-white/50 uppercase tracking-wider">
+                          Language
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Genres */}
+                {movie?.genres && movie.genres.length > 0 && (
+                  <div className="flex flex-wrap gap-2.5">
+                    {movie.genres.slice(0, 5).map((genre) => (
+                      <span
+                        key={genre.id}
+                        className="px-3.5 py-1.5 text-xs font-medium text-white/80 bg-white/5 backdrop-blur-sm rounded-full border border-white/10 hover:border-emerald-500/50 hover:bg-emerald-500/10 hover:text-white transition-all duration-300 cursor-pointer"
+                      >
+                        {genre.name}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                {/* Overview */}
+                <div className="space-y-3 max-w-3xl">
+                  <h3 className="text-xs font-bold tracking-[0.2em] uppercase text-emerald-500">
+                    Synopsis
+                  </h3>
+                  <div className="relative">
+                    <p
+                      className={`text-white/75 leading-relaxed text-base lg:text-lg font-light transition-all duration-500 ${
+                        isExpanded ? "" : "line-clamp-3"
+                      }`}
+                    >
+                      {movie?.overview ||
+                        "No synopsis available for this movie."}
+                    </p>
+
+                    {movie?.overview && movie.overview.length > 200 && (
+                      <button
+                        onClick={() => setIsExpanded(!isExpanded)}
+                        className="mt-3 group inline-flex items-center gap-2 text-sm font-medium text-emerald-500 hover:text-emerald-400 transition-all duration-300"
+                      >
+                        <span className="relative">
+                          {isExpanded ? "Show less" : "Read more"}
+                          <span className="absolute -bottom-1 left-0 w-0 h-px bg-emerald-500 transition-all duration-300 group-hover:w-full" />
+                        </span>
+                        <ChevronDown
+                          size={16}
+                          className={`transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}
+                        />
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {/* Action Buttons - Share Removed */}
+                <div className="flex flex-wrap gap-4 pt-6">
+                  <button
+                    onClick={() =>
+                      !user ? navigate("/login") : setOpenModal(true)
+                    }
+                    className="group relative px-8 py-3 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 rounded-full text-white font-semibold text-sm transition-all duration-300 shadow-lg hover:shadow-emerald-500/25"
+                  >
+                    <div className="flex items-center gap-2">
+                      <Plus
+                        size={18}
+                        className="transition-transform duration-300 group-hover:rotate-90"
+                      />
+                      <span>Add to Watchlist</span>
+                    </div>
+                  </button>
+
+                  {/* Trailer Button */}
+                  {movie?.videos?.results?.length > 0 && (
+                    <button className="px-8 py-3 bg-white/10 backdrop-blur-sm hover:bg-white/20 rounded-full text-white font-semibold text-sm transition-all duration-300 border border-white/20 flex items-center gap-2">
+                      <Play size={16} className="fill-white" />
+                      Watch Trailer
+                    </button>
+                  )}
+                </div>
               </div>
-            </button>
-
-            {/* Trailer Button */}
-            {movie?.videos?.results?.length > 0 && (
-              <button className="px-8 py-3 bg-white/10 backdrop-blur-sm hover:bg-white/20 rounded-full text-white font-semibold text-sm transition-all duration-300 border border-white/20 flex items-center gap-2">
-                <Play size={16} className="fill-white" />
-                Watch Trailer
-              </button>
-            )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</div>
-
 
       {/* CONTENT GRID */}
       <div className="px-6 md:px-16 py-20 grid grid-cols-1 lg:grid-cols-3 gap-16">
